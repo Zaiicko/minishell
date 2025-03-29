@@ -6,17 +6,19 @@
 #    By: zaiicko <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/03/30 00:09:45 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/03/30 00:42:05 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
+READLINE_PATH = $(shell brew --prefix readline)
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INC_DIR = inc
-INC = -I$(INC_DIR) -I$(LIBFT_DIR)
+INC = -I$(READLINE_PATH)/include -I$(INC_DIR) -I$(LIBFT_DIR)
+LDFLAGS = -L$(READLINE_PATH)/lib -lreadline -lhistory
 SRC_DIR = src
 OBJ_DIR = obj
 RM = rm -rf
@@ -30,7 +32,7 @@ OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 all: logo $(NAME)
 
 $(NAME):	$(OBJ) $(LIBFT)
-		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(RDFLAGS) -o $(NAME)
 
 $(LIBFT):
 		@make -C $(LIBFT_DIR)
