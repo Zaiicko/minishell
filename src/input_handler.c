@@ -34,9 +34,16 @@ void	handle_sigint(int sig)
 	exit_status = 130;
 }
 
-void	init_signals(void)
+void	start_signals(void)
 {
 	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	start_exec_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	readline_loop(void)
@@ -46,7 +53,7 @@ void	readline_loop(void)
 	using_history();
 	read_history(".readline_history");
 	config_terminal();
-	init_signals();
+	start_signals();
 	while (1)
 	{
 		input = readline("minishell> ");

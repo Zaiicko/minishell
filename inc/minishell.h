@@ -19,6 +19,10 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <termios.h>
+#include <signal.h>
+#include <sys/wait.h>
+
+extern int exit_status;
 
 // typedef struct t_data;
 
@@ -29,7 +33,7 @@
 
 
 void	readline_loop(void);
-void	init_signals(void);
+void	start_signals(void);
 void	handle_sigint(int sig);
 void	config_terminal(void);
 
