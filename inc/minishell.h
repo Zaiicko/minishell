@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/03/30 20:56:47 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/03/30 22:47:16 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <termios.h>
 
 // typedef struct t_data;
 
@@ -27,6 +28,9 @@
 // };
 
 
-void	readline_loop();
+void	readline_loop(void);
+void	init_signals(void);
+void	handle_sigint(int sig);
+void	config_terminal(void);
 
 #endif
