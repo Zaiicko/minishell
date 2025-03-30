@@ -6,7 +6,7 @@
 #    By: zaiicko <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/03/30 00:42:05 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/03/30 13:45:30 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 all: logo $(NAME)
 
 $(NAME):	$(OBJ) $(LIBFT)
-		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(RDFLAGS) -o $(NAME)
+		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 $(LIBFT):
 		@make -C $(LIBFT_DIR)
