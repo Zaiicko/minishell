@@ -22,7 +22,10 @@ void	readline_loop()
 	{
 		input = readline("minishell> ");
 		if (!input)
-			break;
+		{
+			printf("exit\n");
+			break;	
+		}
 		if (input[0])
 		{
 			add_history(input);
