@@ -6,22 +6,13 @@
 /*   By: zaiicko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/03/30 22:47:48 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/03 18:29:42 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 int exit_status = 0;
-
-void	config_terminal(void)
-{
-	struct termios term;
-
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}
 
 void	handle_sigint(int sig)
 {
@@ -52,7 +43,6 @@ void	readline_loop(void)
 
 	using_history();
 	read_history(".readline_history");
-	config_terminal();
 	start_signals();
 	while (1)
 	{
