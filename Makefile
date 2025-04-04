@@ -26,6 +26,7 @@ RM = rm -rf
 SRCS =	main.c\
 		input_handler.c\
 		signal_handler.c\
+		utils.c\
 
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))

@@ -13,6 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libft/inc/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -21,6 +22,8 @@
 #include <termios.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+# include <errno.h>
 
 extern int exit_status;
 
@@ -36,5 +39,8 @@ void	readline_loop(void);
 void	start_signals(void);
 void	handle_sigint(int sig);
 void	config_terminal(void);
+void	load_history(void);
+void	save_history(char *line);
+void	exit_perror(char *msg);
 
 #endif
