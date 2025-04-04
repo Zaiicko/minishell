@@ -24,7 +24,9 @@ OBJ_DIR = obj
 RM = rm -rf
 
 SRCS =	main.c\
-	input_handler.c\
+		input_handler.c\
+		signal_handler.c\
+
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 
