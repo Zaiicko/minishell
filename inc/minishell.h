@@ -57,5 +57,10 @@ void	start_signals(void);
 void	handle_sigint(int sig);
 void	config_terminal(void);
 t_ast_node	*new_node(t_node_type type);
+t_ast_node	*new_command_node(char	**args);
+t_ast_node	*new_pipe_node(t_ast_node *l_cmd, t_ast_node *r_cmd);
+t_ast_node	*new_redir_node(t_node_type type, t_ast_node *cmd, char *target);
+t_ast_node	*new_operator_node(t_node_type type, t_ast_node *l, t_ast_node *r);
+
 
 #endif
