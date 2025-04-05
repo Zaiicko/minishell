@@ -6,7 +6,7 @@
 /*   By: zaiicko <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:09:03 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/04 02:11:35 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/05 02:23:44 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_ast_node	*new_operator_node(t_node_type type, t_ast_node *l, t_ast_node *r)
 		return (NULL);
 	node = new_node(type);
 	if (!node)
-		reutnr (NULL);
+		return (NULL);
 	node->l = l;
 	node->r = r;
 	return (node);
