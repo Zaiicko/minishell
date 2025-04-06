@@ -48,6 +48,25 @@ typedef struct s_ast_node
 	struct s_ast_node		*l;
 }	t_ast_node;
 
+typedef enum s_token_type
+{
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_AND,
+	TOKEN_OR,
+}	t_token_type;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+	struct s_token	*next;
+}	t_token;
+
 // typedef struct t_data;
 
 // struct s_data
