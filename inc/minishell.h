@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/03/30 22:47:16 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/06 22:58:17 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,28 @@
 #include <fcntl.h>
 # include <errno.h>
 
-extern int exit_status;
+extern int	g_exit_status;
+
+typedef enum s_node_type
+{
+	NODE_PIPE,
+	NODE_COMMAND,
+	NODE_REDIR_IN,
+	NODE_REDIR_OUT,
+	NODE_AND,
+	NODE_OR,
+	NODE_APPEND,
+	NODE_HEREDOC,
+}	t_node_type;
+
+typedef struct s_ast_node
+{
+	t_node_type				type;
+	char					**args;
+	char					*redir_file;
+	struct s_ast_node		*r;
+	struct s_ast_node		*l;
+}	t_ast_node;
 
 // typedef struct t_data;
 
@@ -34,13 +55,16 @@ extern int exit_status;
 //     int id;    
 // };
 
-
 void	readline_loop(void);
 void	start_signals(void);
 void	handle_sigint(int sig);
-void	config_terminal(void);
 void	load_history(void);
 void	save_history(char *line);
 void	exit_perror(char *msg);
+t_ast_node	*new_node(t_node_type type);
+t_ast_node	*new_command_node(char	**args);
+t_ast_node	*new_pipe_node(t_ast_node *l_cmd, t_ast_node *r_cmd);
+t_ast_node	*new_redir_node(t_node_type type, t_ast_node *cmd, char *target);
+t_ast_node	*new_operator_node(t_node_type type, t_ast_node *l, t_ast_node *r);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: zaiicko <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/03/30 20:57:14 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/04/06 22:58:51 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,10 @@ OBJ_DIR = obj
 RM = rm -rf
 
 SRCS =	main.c\
-		input_handler.c\
-		signal_handler.c\
-		utils.c\
-
+	input_handler.c\
+	signal_handler.c\
+	utils.c\
+	ast.c\
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 
