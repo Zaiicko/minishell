@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-int exit_status = 0;
+int g_exit_status = 0;
 
 void	load_history(void)
 {
