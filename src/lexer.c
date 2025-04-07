@@ -29,3 +29,42 @@ t_token	*new_token(t_token_type type, char *value)
 	token->next = NULL;
 	return (token);
 }
+
+void	add_token_to_list(t_token **head, t_token *new_token)
+{
+	t_token	*current;
+
+	if (!*head)
+		*head = new_token;
+	else
+	{
+		current = *head;
+		while (current->next)
+			current = current->next;
+		current->next = new_token;
+	}
+}
+
+void	free_token_list(t_token **head)
+{
+	t_token	*current;
+	t_token	*next;
+
+	current = *head;
+	while (current)
+	{
+		next = current->next;
+		free_token(current);
+		current = next;
+	}
+	*head = NULL;
+}
+
+void	free_token(t_token *token)
+{
+	if (token)
+	{
+		free(token->value);
+		free(token);
+	}
+}

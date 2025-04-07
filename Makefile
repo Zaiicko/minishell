@@ -28,6 +28,7 @@ SRCS =	main.c\
 	signal_handler.c\
 	utils.c\
 	ast.c\
+	lexer.c\
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 
