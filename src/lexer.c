@@ -3,68 +3,117 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:57:51 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/07 02:02:21 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/13 23:19:44 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_token	*new_token(t_token_type type, char *value)
+int	handle_redirection(char *input, int i, t_token **head)
 {
-	t_token	*token;
-
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->type = type;
-	token->value = ft_strdup(value);
-	if (!token->value)
+	if (input[i] == '<')
 	{
-		free(token);
-		return (NULL);
+		if (input[i + 1] == '<')
+		{
+			add_token_to_list(head, new_token(TOKEN_HEREDOC, "<<"));
+			return (i + 2);
+		}
+		add_token_to_list(head, new_token(TOKEN_REDIR_IN, "<"));
+		return (i + 1);
 	}
-	token->next = NULL;
-	return (token);
+	else if (input[i] == '>')
+	{
+		if (input[i + 1] == '>')
+		{
+			add_token_to_list(head, new_token(TOKEN_APPEND, ">>"));
+			return (i + 2);
+		}
+		add_token_to_list(head, new_token(TOKEN_REDIR_OUT, ">"));
+		return (i + 1);
+	}
+	return (i);
 }
 
-void	add_token_to_list(t_token **head, t_token *new_token)
+int	handle_operator(char *input, int i, t_token **head)
 {
-	t_token	*current;
-
-	if (!*head)
-		*head = new_token;
-	else
+	if (input[i] == '|')
 	{
-		current = *head;
-		while (current->next)
-			current = current->next;
-		current->next = new_token;
+		if (input[i + 1] == '|')
+		{
+			add_token_to_list(head, new_token(TOKEN_OR, "||"));
+			return (i + 2);
+		}
+		add_token_to_list(head, new_token(TOKEN_PIPE, "|"));
+		return (i + 1);
 	}
+	else if (input[i] == '<' || input[i] == '>')
+	{
+		return (handle_redirection(input, i, head));
+	}
+	if (input[i] == '&' && input[i + 1] == '&')
+	{
+		add_token_to_list(head, new_token(TOKEN_AND, "&&"));
+		return (i + 2);
+	}
+	return (i);
 }
 
-void	free_token_list(t_token **head)
+int	update_quotes(int *in_quotes, char *quote_type, char current)
 {
-	t_token	*current;
-	t_token	*next;
-
-	current = *head;
-	while (current)
+	if (*in_quotes == 0)
 	{
-		next = current->next;
-		free_token(current);
-		current = next;
+		*in_quotes = 1;
+		*quote_type = current;
 	}
-	*head = NULL;
+	else if (current == *quote_type)
+		*in_quotes = 0;
+	return (1);
 }
 
-void	free_token(t_token *token)
+int	handle_word(char *input, int i, t_token **head)
 {
-	if (token)
+	int		start;
+	int		in_quotes;
+	char	quote_type;
+	char	*word;
+
+	start = i;
+	in_quotes = 0;
+	quote_type = 0;
+	while (input[i])
 	{
-		free(token->value);
-		free(token);
+		if ((input[i] == '\'' || input[i] == '"'))
+			update_quotes(&in_quotes, &quote_type, input[i]);
+		else if (!in_quotes && (is_space(input[i]) || is_operator(input[i])))
+			break ;
+		i++;
 	}
+	word = ft_substr(input, start, i - start);
+	add_token_to_list(head, new_token(TOKEN_WORD, word));
+	free(word);
+	return (i);
+}
+
+t_token	*tokenize(char *input)
+{
+	t_token	*head;
+	int		i;
+	int		in_quotes;
+
+	in_quotes = 0;
+	head = NULL;
+	i = 0;
+	while (input[i])
+	{
+		if (is_space(input[i]))
+			i++;
+		else if (is_operator(input[i]) && !in_quotes)
+			i = handle_operator(input, i, &head);
+		else
+			i = handle_word(input, i, &head);
+	}
+	return (head);
 }
