@@ -3,35 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/03 18:29:42 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/14 00:51:25 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int g_exit_status = 0;
+int	g_exit_status = 0;
 
 void	load_history(void)
 {
-	int	fd;
+	int		fd;
 	char	*line;
-	int	len;
+	int		len;
 
 	fd = open(".readline_history", O_RDONLY);
 	if (fd < 0)
 	{
-		if(errno != ENOENT)
+		if (errno != ENOENT)
 			exit_perror("Error\n Can't open history file\n");
-		return;
+		return ;
 	}
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (!line)
-			break;
+			break ;
 		len = strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
 			line[len - 1] = '\0';
@@ -47,7 +47,7 @@ void	save_history(char *line)
 	int	fd;
 
 	if (!line || !line[0])
-		return;
+		return ;
 	fd = open(".readline_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0)
 		exit_perror("Error\n Can't open history file\n");
@@ -58,7 +58,7 @@ void	save_history(char *line)
 
 void	readline_loop(void)
 {
-	char *input;
+	char	*input;
 
 	load_history();
 	start_signals();
@@ -68,7 +68,7 @@ void	readline_loop(void)
 		if (!input)
 		{
 			printf("exit\n");
-			break;	
+			break ;
 		}
 		if (input[0])
 		{

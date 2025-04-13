@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:28:07 by nicleena          #+#    #+#             */
-/*   Updated: 2025/03/30 20:33:27 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/14 00:52:48 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int main(void)
+int	main(void)
 {
-    readline_loop();
-    return (0);
+	readline_loop();
+	return (0);
 }
