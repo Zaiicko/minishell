@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zaiicko <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/04/06 22:58:51 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/04/14 00:02:14 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRCS =	main.c\
 	utils.c\
 	ast.c\
 	lexer.c\
+	lexer_utils.c\
+	lexer_utils2.c\
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 
