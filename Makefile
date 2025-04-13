@@ -6,7 +6,7 @@
 #    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/04/14 00:37:24 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/04/14 00:40:48 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,9 @@ SRCS =	main.c\
 	signal_handler.c\
 	utils.c\
 	ast.c\
-	lexer.c\
-	lexer_utils.c\
-	lexer_utils2.c\
+	lexer/lexer.c\
+	lexer/lexer_utils.c\
+	lexer/lexer_utils2.c\
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 
