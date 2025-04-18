@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/16 19:45:22 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/18 02:08:34 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,6 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 }	t_token;
-
-typedef struct s_env
-{
-	char	*name;
-	char	*data;
-	struct s_env	*next;
-}	t_env;
 
 // typedef struct t_data;
 
