@@ -6,51 +6,17 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/20 19:49:29 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 00:12:19 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_ast_node	*handle_redirections(t_data *data,
-	t_token **tokens, t_ast_node *cmd)
+void	fill_command_args(t_data *data,
+		t_token **tokens, char **args, int count)
 {
-	t_ast_node	*result;
-	t_node_type	type;
-	char		*file;
+	int	i;
 
-	result = cmd;
-	while (*tokens && ((*tokens)->type == TOKEN_REDIR_IN
-			|| (*tokens)->type == TOKEN_REDIR_OUT
-			|| (*tokens)->type == TOKEN_APPEND
-			|| (*tokens)->type == TOKEN_HEREDOC))
-	{
-		type = convert_type((*tokens)->type);
-		*tokens = (*tokens)->next;
-		if (!*tokens || (*tokens)->type != TOKEN_WORD)
-			free_all_and_exit_perror(data, "Error\n Missing file name\n");
-		file = (*tokens)->value;
-		result = new_redir_node(type, result, file);
-		if (!result)
-			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
-		*tokens = (*tokens)->next;
-	}
-	return (result);
-}
-
-t_ast_node	*parse_command(t_data *data, t_token **tokens)
-{
-	t_ast_node	*cmd_node;
-	char		**args;
-	int			count;
-	int			i;
-
-	if (!*tokens || (*tokens)->type != TOKEN_WORD)
-		return (NULL);
-	count = count_command_args(*tokens);
-	args = (char **)malloc((count + 1) * sizeof(char *));
-	if (!args)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
 	i = 0;
 	while (i < count)
 	{
@@ -65,6 +31,21 @@ t_ast_node	*parse_command(t_data *data, t_token **tokens)
 		i++;
 	}
 	args[i] = NULL;
+}
+
+t_ast_node	*parse_command(t_data *data, t_token **tokens)
+{
+	t_ast_node	*cmd_node;
+	char		**args;
+	int			count;
+
+	if (!*tokens || (*tokens)->type != TOKEN_WORD)
+		return (NULL);
+	count = count_command_args(*tokens);
+	args = (char **)malloc((count + 1) * sizeof(char *));
+	if (!args)
+		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+	fill_command_args(data, tokens, args, count);
 	cmd_node = new_command_node(args);
 	if (!cmd_node)
 	{
