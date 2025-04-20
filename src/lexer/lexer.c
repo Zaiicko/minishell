@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:57:51 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/20 15:18:25 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 16:56:20 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@ int	handle_redirection(t_data *data, int i, t_token **head)
 	{
 		if (data->input[i + 1] == '<')
 		{
-			add_token_to_list(head, new_token(TOKEN_HEREDOC, "<<"));
+			safe_add_token_to_list(data, head, TOKEN_HEREDOC, "<<");
 			return (i + 2);
 		}
-		add_token_to_list(head, new_token(TOKEN_REDIR_IN, "<"));
+		safe_add_token_to_list(data, head, TOKEN_REDIR_IN, "<");
 		return (i + 1);
 	}
 	else if (data->input[i] == '>')
 	{
 		if (data->input[i + 1] == '>')
 		{
-			add_token_to_list(head, new_token(TOKEN_APPEND, ">>"));
+			safe_add_token_to_list(data, head, TOKEN_APPEND, ">>");
 			return (i + 2);
 		}
-		add_token_to_list(head, new_token(TOKEN_REDIR_OUT, ">"));
+		safe_add_token_to_list(data, head, TOKEN_REDIR_OUT, ">");
 		return (i + 1);
 	}
 	return (i);
@@ -43,10 +43,10 @@ int	handle_operator(t_data *data, int i, t_token **head)
 	{
 		if (data->input[i + 1] == '|')
 		{
-			add_token_to_list(head, new_token(TOKEN_OR, "||"));
+			safe_add_token_to_list(data, head, TOKEN_OR, "||");
 			return (i + 2);
 		}
-		add_token_to_list(head, new_token(TOKEN_PIPE, "|"));
+		safe_add_token_to_list(data, head, TOKEN_PIPE, "|");
 		return (i + 1);
 	}
 	else if (data->input[i] == '<' || data->input[i] == '>')
@@ -55,7 +55,7 @@ int	handle_operator(t_data *data, int i, t_token **head)
 	}
 	if (data->input[i] == '&' && data->input[i + 1] == '&')
 	{
-		add_token_to_list(head, new_token(TOKEN_AND, "&&"));
+		safe_add_token_to_list(data, head, TOKEN_AND, "&&");
 		return (i + 2);
 	}
 	return (i);
@@ -95,7 +95,7 @@ int	handle_word(t_data *data, int i, t_token **head)
 	word = ft_substr(data->input, start, i - start);
 	if (!word)
 		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
-	add_token_to_list(head, new_token(TOKEN_WORD, word));
+	safe_add_token_to_list(data, head, TOKEN_WORD, word);
 	free(word);
 	return (i);
 }
