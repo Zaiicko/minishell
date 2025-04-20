@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/16 19:21:40 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 13:39:09 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,7 @@ int			count_command_args(t_token *tokens);
 t_node_type	convert_type(t_token_type token_type);
 t_ast_node	*handle_redirections(t_token **tokens, t_ast_node *cmd);
 void		free_ast(t_ast_node *root);
+void		free_all(t_token **tokens, t_ast_node **ast);
+void		free_token_list_and_exit_perror(t_token **tokens, char *msg);
 
 #endif
