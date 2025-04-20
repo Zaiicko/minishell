@@ -6,13 +6,11 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 00:15:33 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 00:32:27 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	g_exit_status = 0;
 
 void	readline_loop(t_data *data)
 {
