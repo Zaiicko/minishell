@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:09:03 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/14 01:01:52 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 03:36:08 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ t_ast_node	*new_redir_node(t_node_type type, t_ast_node *cmd, char *target)
 		return (NULL);
 	node->l = cmd;
 	node->redir_file = ft_strdup(target);
+	if (!node->redir_file)
+	{
+		free(node);
+		return (NULL);
+	}
 	return (node);
 }
 

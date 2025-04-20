@@ -6,7 +6,7 @@
 #    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/04/16 19:37:47 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/04/20 14:59:41 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS =	main.c\
 	lexer/lexer_utils2.c\
 	parser/parser.c\
 	parser/parser_utils.c\
+	init_data.c\
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 

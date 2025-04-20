@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/14 00:51:25 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:17:39 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,29 @@ void	save_history(char *line)
 	close(fd);
 }
 
-void	readline_loop(void)
+void	readline_loop(t_data *data)
 {
-	char	*input;
-
 	load_history();
 	start_signals();
 	while (1)
 	{
-		input = readline("minishell> ");
-		if (!input)
+		data->input = readline("minishell> ");
+		if (!data->input)
 		{
 			printf("exit\n");
 			break ;
 		}
-		if (input[0])
+		if (data->input[0])
 		{
-			add_history(input);
-			save_history(input);
+			add_history(data->input);
+			save_history(data->input);
+			data->tokens = tokenize(data);
+			if (data->tokens)
+			{
+				data->ast = parse(data->tokens);
+				free_token_list(&data->tokens);
+			}
 		}
-		free(input);
+		free(data->input);
 	}
 }

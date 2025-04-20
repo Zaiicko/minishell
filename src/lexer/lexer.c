@@ -6,17 +6,17 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:57:51 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/13 23:19:44 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:18:25 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	handle_redirection(char *input, int i, t_token **head)
+int	handle_redirection(t_data *data, int i, t_token **head)
 {
-	if (input[i] == '<')
+	if (data->input[i] == '<')
 	{
-		if (input[i + 1] == '<')
+		if (data->input[i + 1] == '<')
 		{
 			add_token_to_list(head, new_token(TOKEN_HEREDOC, "<<"));
 			return (i + 2);
@@ -24,9 +24,9 @@ int	handle_redirection(char *input, int i, t_token **head)
 		add_token_to_list(head, new_token(TOKEN_REDIR_IN, "<"));
 		return (i + 1);
 	}
-	else if (input[i] == '>')
+	else if (data->input[i] == '>')
 	{
-		if (input[i + 1] == '>')
+		if (data->input[i + 1] == '>')
 		{
 			add_token_to_list(head, new_token(TOKEN_APPEND, ">>"));
 			return (i + 2);
@@ -37,11 +37,11 @@ int	handle_redirection(char *input, int i, t_token **head)
 	return (i);
 }
 
-int	handle_operator(char *input, int i, t_token **head)
+int	handle_operator(t_data *data, int i, t_token **head)
 {
-	if (input[i] == '|')
+	if (data->input[i] == '|')
 	{
-		if (input[i + 1] == '|')
+		if (data->input[i + 1] == '|')
 		{
 			add_token_to_list(head, new_token(TOKEN_OR, "||"));
 			return (i + 2);
@@ -49,11 +49,11 @@ int	handle_operator(char *input, int i, t_token **head)
 		add_token_to_list(head, new_token(TOKEN_PIPE, "|"));
 		return (i + 1);
 	}
-	else if (input[i] == '<' || input[i] == '>')
+	else if (data->input[i] == '<' || data->input[i] == '>')
 	{
-		return (handle_redirection(input, i, head));
+		return (handle_redirection(data, i, head));
 	}
-	if (input[i] == '&' && input[i + 1] == '&')
+	if (data->input[i] == '&' && data->input[i + 1] == '&')
 	{
 		add_token_to_list(head, new_token(TOKEN_AND, "&&"));
 		return (i + 2);
@@ -73,7 +73,7 @@ int	update_quotes(int *in_quotes, char *quote_type, char current)
 	return (1);
 }
 
-int	handle_word(char *input, int i, t_token **head)
+int	handle_word(t_data *data, int i, t_token **head)
 {
 	int		start;
 	int		in_quotes;
@@ -83,21 +83,24 @@ int	handle_word(char *input, int i, t_token **head)
 	start = i;
 	in_quotes = 0;
 	quote_type = 0;
-	while (input[i])
+	while (data->input[i])
 	{
-		if ((input[i] == '\'' || input[i] == '"'))
-			update_quotes(&in_quotes, &quote_type, input[i]);
-		else if (!in_quotes && (is_space(input[i]) || is_operator(input[i])))
+		if ((data->input[i] == '\'' || data->input[i] == '"'))
+			update_quotes(&in_quotes, &quote_type, data->input[i]);
+		else if (!in_quotes && (is_space(data->input[i])
+				|| is_operator(data->input[i])))
 			break ;
 		i++;
 	}
-	word = ft_substr(input, start, i - start);
+	word = ft_substr(data->input, start, i - start);
+	if (!word)
+		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
 	add_token_to_list(head, new_token(TOKEN_WORD, word));
 	free(word);
 	return (i);
 }
 
-t_token	*tokenize(char *input)
+t_token	*tokenize(t_data *data)
 {
 	t_token	*head;
 	int		i;
@@ -106,14 +109,14 @@ t_token	*tokenize(char *input)
 	in_quotes = 0;
 	head = NULL;
 	i = 0;
-	while (input[i])
+	while (data->input[i])
 	{
-		if (is_space(input[i]))
+		if (is_space(data->input[i]))
 			i++;
-		else if (is_operator(input[i]) && !in_quotes)
-			i = handle_operator(input, i, &head);
+		else if (is_operator(data->input[i]) && !in_quotes)
+			i = handle_operator(data, i, &head);
 		else
-			i = handle_word(input, i, &head);
+			i = handle_word(data, i, &head);
 	}
 	return (head);
 }

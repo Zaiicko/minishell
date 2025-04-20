@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/25 17:28:07 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/20 15:19:37 by zaiicko          ###   ########.fr       */
+/*   Created: 2025/04/20 14:09:02 by zaiicko           #+#    #+#             */
+/*   Updated: 2025/04/20 15:19:29 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main(void)
+void	init_data(t_data *data)
 {
-	t_data	data;
-
-	init_data(&data);
-	readline_loop(&data);
-	return (0);
+	data->input = NULL;
+	data->tokens = NULL;
+	data->ast = NULL;
 }

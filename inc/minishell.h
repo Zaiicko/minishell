@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/20 14:41:16 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:19:53 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_data
 	t_ast_node	*ast;
 }	t_data;
 
-void		readline_loop(void);
+void		readline_loop(t_data *data);
 void		start_signals(void);
 void		handle_sigint(int sig);
 void		load_history(void);
@@ -104,5 +104,6 @@ t_ast_node	*handle_redirections(t_token **tokens, t_ast_node *cmd);
 void		free_ast(t_ast_node *root);
 void		free_all(t_data *data);
 void		free_all_and_exit_perror(t_data *data, char *msg);
+void		init_data(t_data *data);
 
 #endif
