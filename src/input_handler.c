@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/20 20:45:18 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 23:11:57 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@ void	load_history(void)
 	close(fd);
 }
 
-void	save_history(char *line)
+void	save_history(t_data *data)
 {
 	int	fd;
 
-	if (!line || !line[0])
+	if (!data->input || !data->input[0])
 		return ;
 	fd = open(".readline_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0)
-		exit_perror("Error\n Can't open history file\n");
-	write(fd, line, strlen(line));
+		free_all_and_exit_perror(data, "Error\n Can't open history file\n");
+	write(fd, data->input, strlen(data->input));
 	write(fd, "\n", 1);
 	close(fd);
 }
@@ -72,7 +72,7 @@ void	readline_loop(t_data *data)
 		if (data->input[0])
 		{
 			add_history(data->input);
-			save_history(data->input);
+			save_history(data);
 			data->tokens = tokenize(data);
 			if (data->tokens)
 			{

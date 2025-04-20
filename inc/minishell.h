@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/20 19:31:13 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 23:12:16 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void		readline_loop(t_data *data);
 void		start_signals(void);
 void		handle_sigint(int sig);
 void		load_history(void);
-void		save_history(char *line);
+void	save_history(t_data *data);
 void		exit_perror(char *msg);
 t_ast_node	*new_node(t_node_type type);
 t_ast_node	*new_command_node(char	**args);
