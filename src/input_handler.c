@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/20 15:17:39 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 18:11:39 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	readline_loop(t_data *data)
 	while (1)
 	{
 		data->input = readline("minishell> ");
-		if (!data->input)
+		if (!data->input || ft_strncmp(data->input, "exit",
+				ft_strlen(data->input)) == 0)
 		{
 			printf("exit\n");
 			break ;
