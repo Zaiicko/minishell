@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/20 18:11:39 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 19:06:25 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	readline_loop(t_data *data)
 			data->tokens = tokenize(data);
 			if (data->tokens)
 			{
-				data->ast = parse(data->tokens);
+				data->ast = parse(data);
 				free_token_list(&data->tokens);
 			}
 		}
