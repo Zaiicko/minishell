@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/20 13:39:09 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 14:41:16 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-// typedef struct t_data;
-
-// struct s_data
-// {
-//     int id;    
-// };
+typedef struct s_data
+{
+	char		*input;
+	t_token		*tokens;
+	t_ast_node	*ast;
+}	t_data;
 
 void		readline_loop(void);
 void		start_signals(void);
@@ -89,11 +89,11 @@ t_token		*new_token(t_token_type type, char *value);
 void		add_token_to_list(t_token **head, t_token *new_token);
 void		free_token_list(t_token **head);
 void		free_token(t_token *token);
-t_token		*tokenize(char *input);
+t_token		*tokenize(t_data *data);
 int			is_space(char c);
 int			is_operator(char c);
-int			handle_operator(char *input, int i, t_token **head);
-int			handle_redirection(char *input, int i, t_token **head);
+int			handle_operator(t_data *data, int i, t_token **head);
+int			handle_redirection(t_data *data, int i, t_token **head);
 t_ast_node	*parse(t_token *tokens);
 t_ast_node	*parse_logical(t_token **tokens);
 t_ast_node	*parse_pipe(t_token **tokens);
@@ -102,7 +102,7 @@ int			count_command_args(t_token *tokens);
 t_node_type	convert_type(t_token_type token_type);
 t_ast_node	*handle_redirections(t_token **tokens, t_ast_node *cmd);
 void		free_ast(t_ast_node *root);
-void		free_all(t_token **tokens, t_ast_node **ast);
-void		free_token_list_and_exit_perror(t_token **tokens, char *msg);
+void		free_all(t_data *data);
+void		free_all_and_exit_perror(t_data *data, char *msg);
 
 #endif

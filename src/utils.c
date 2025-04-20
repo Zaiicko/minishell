@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 22:37:38 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/20 13:34:44 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/20 14:11:43 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,18 @@ void	exit_perror(char *msg)
 	exit(1);
 }
 
-void	free_all(t_token **tokens, t_ast_node **ast)
+void	free_all(t_data *data)
 {
-	free_token_list(tokens);
-	free_ast(*ast);
+	if (data->input)
+		free(data->input);
+	if (data->tokens)
+		free_token_list(&data->tokens);
+	if (data->ast)
+		free_ast(data->ast);
 }
 
-void	free_token_list_and_exit_perror(t_token **tokens, char *msg)
+void	free_all_and_exit_perror(t_data *data, char *msg)
 {
-	free_token_list(tokens);
+	free_all(data);
 	exit_perror(msg);
 }
