@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 14:44:58 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 17:42:13 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ t_ast_node	*parse_pipe(t_data *data, t_token **tokens)
 		*tokens = (*tokens)->next;
 		node = new_pipe_node(left, parse_pipe(data, tokens));
 		if (!node)
+		{
+			free_ast(left);
 			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+		}
 		return (node);
 	}
 	return (left);
