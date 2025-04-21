@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 17:52:31 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 18:02:59 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,7 @@ t_ast_node	*parse(t_data *data)
 		return (NULL);
 	current = data->tokens;
 	root = parse_logical(data, &current);
+	if (!root)
+		free_all_and_exit_perror(data, "Error\n Parsing failed\n");
 	return (root);
 }
