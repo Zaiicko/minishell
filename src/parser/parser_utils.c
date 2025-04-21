@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 00:11:31 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 19:37:09 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ t_ast_node	*handle_redirections(t_data *data,
 		type = convert_type((*tokens)->type);
 		*tokens = (*tokens)->next;
 		if (!*tokens || (*tokens)->type != TOKEN_WORD)
+		{
+			free_ast(result);
 			free_all_and_exit_perror(data, "Error\n Missing file name\n");
+		}
 		file = (*tokens)->value;
 		result = new_redir_node(type, result, file);
 		if (!result)
