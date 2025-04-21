@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/21 00:12:01 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 23:56:15 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,6 @@ void		safe_add_token_to_list(t_data *data, t_token **head,
 				t_token_type type, char *value);
 void		fill_command_args(t_data *data,
 				t_token **tokens, char **args, int count);
+void		process_user_input(t_data *data);
 
 #endif
