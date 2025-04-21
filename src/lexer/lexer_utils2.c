@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 23:01:08 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/20 17:09:26 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 22:09:08 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ void	safe_add_token_to_list(t_data *data, t_token **head,
 
 	token = new_token(type, value);
 	if (!token)
+	{
+		if (type == TOKEN_WORD)
+			free(value);
 		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+	}
 	add_token_to_list(head, token);
 }
