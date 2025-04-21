@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:28:07 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/21 00:32:35 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 14:40:26 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ int	main(void)
 
 	init_data(&data);
 	readline_loop(&data);
+	free_all(&data);
 	return (0);
 }
