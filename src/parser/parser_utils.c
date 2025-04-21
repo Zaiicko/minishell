@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 19:37:09 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 19:43:20 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ t_ast_node	*handle_redirections(t_data *data,
 		file = (*tokens)->value;
 		result = new_redir_node(type, result, file);
 		if (!result)
+		{
+			free_ast(cmd);
 			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+		}
 		*tokens = (*tokens)->next;
 	}
 	return (result);
