@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 17:42:13 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 17:52:31 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,10 @@ t_ast_node	*parse_logical(t_data *data, t_token **tokens)
 		*tokens = (*tokens)->next;
 		node = new_operator_node(type, left, parse_logical(data, tokens));
 		if (!node)
+		{
+			free_ast(left);
 			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+		}
 		return (node);
 	}
 	return (left);
