@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/18 02:08:34 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/22 13:08:07 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,18 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-// typedef struct t_data;
+typedef struct s_data
+{
+	char		*input;
+	t_token		*tokens;
+	t_ast_node	*ast;
+}	t_data;
 
-// struct s_data
-// {
-//     int id;    
-// };
-
-void		readline_loop(void);
+void		readline_loop(t_data *data);
 void		start_signals(void);
 void		handle_sigint(int sig);
 void		load_history(void);
-void		save_history(char *line);
+void		save_history(t_data *data);
 void		exit_perror(char *msg);
 t_ast_node	*new_node(t_node_type type);
 t_ast_node	*new_command_node(char	**args);
@@ -89,18 +89,27 @@ t_token		*new_token(t_token_type type, char *value);
 void		add_token_to_list(t_token **head, t_token *new_token);
 void		free_token_list(t_token **head);
 void		free_token(t_token *token);
-t_token		*tokenize(char *input);
+t_token		*tokenize(t_data *data);
 int			is_space(char c);
 int			is_operator(char c);
-int			handle_operator(char *input, int i, t_token **head);
-int			handle_redirection(char *input, int i, t_token **head);
-t_ast_node	*parse(t_token *tokens);
-t_ast_node	*parse_logical(t_token **tokens);
-t_ast_node	*parse_pipe(t_token **tokens);
-t_ast_node	*parse_command(t_token **tokens);
+int			handle_operator(t_data *data, int i, t_token **head);
+int			handle_redirection(t_data *data, int i, t_token **head);
+t_ast_node	*parse(t_data *data);
+t_ast_node	*parse_logical(t_data *data, t_token **tokens);
+t_ast_node	*parse_pipe(t_data *data, t_token **tokens);
+t_ast_node	*parse_command(t_data *data, t_token **tokens);
 int			count_command_args(t_token *tokens);
 t_node_type	convert_type(t_token_type token_type);
-t_ast_node	*handle_redirections(t_token **tokens, t_ast_node *cmd);
+t_ast_node	*handle_redirections(t_data *data,
+				t_token **tokens, t_ast_node *cmd);
 void		free_ast(t_ast_node *root);
+void		free_all(t_data *data);
+void		free_all_and_exit_perror(t_data *data, char *msg);
+void		init_data(t_data *data);
+void		safe_add_token_to_list(t_data *data, t_token **head,
+				t_token_type type, char *value);
+void		fill_command_args(t_data *data,
+				t_token **tokens, char **args, int count);
+void		process_user_input(t_data *data);
 
 #endif

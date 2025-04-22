@@ -6,75 +6,46 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/14 00:51:25 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/21 23:25:02 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	g_exit_status = 0;
-
-void	load_history(void)
+void	process_user_input(t_data *data)
 {
-	int		fd;
-	char	*line;
-	int		len;
-
-	fd = open(".readline_history", O_RDONLY);
-	if (fd < 0)
+	if (data->input && data->input[0])
 	{
-		if (errno != ENOENT)
-			exit_perror("Error\n Can't open history file\n");
-		return ;
+		add_history(data->input);
+		save_history(data);
+		data->tokens = tokenize(data);
+		if (data->tokens)
+		{
+			data->ast = parse(data);
+			if (data->ast)
+			{
+				free_ast(data->ast);
+				data->ast = NULL;
+			}
+			free_token_list(&data->tokens);
+		}
 	}
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		len = strlen(line);
-		if (len > 0 && line[len - 1] == '\n')
-			line[len - 1] = '\0';
-		if (line[0])
-			add_history(line);
-		free(line);
-	}
-	close(fd);
 }
 
-void	save_history(char *line)
+void	readline_loop(t_data *data)
 {
-	int	fd;
-
-	if (!line || !line[0])
-		return ;
-	fd = open(".readline_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
-	if (fd < 0)
-		exit_perror("Error\n Can't open history file\n");
-	write(fd, line, strlen(line));
-	write(fd, "\n", 1);
-	close(fd);
-}
-
-void	readline_loop(void)
-{
-	char	*input;
-
 	load_history();
 	start_signals();
 	while (1)
 	{
-		input = readline("minishell> ");
-		if (!input)
+		data->input = readline("minishell> ");
+		if (!data->input || (ft_strncmp(data->input, "exit",
+					4) == 0 && data->input[4] == '\0'))
 		{
 			printf("exit\n");
 			break ;
 		}
-		if (input[0])
-		{
-			add_history(input);
-			save_history(input);
-		}
-		free(input);
+		process_user_input(data);
+		free(data->input);
 	}
 }
