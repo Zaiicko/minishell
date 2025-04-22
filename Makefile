@@ -6,7 +6,7 @@
 #    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/04/21 00:15:51 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/04/22 23:08:22 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS =	main.c\
 	parser/parser_utils.c\
 	init_data.c\
 	history.c\
+	builtins/ft_env.c\
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 

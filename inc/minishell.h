@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/22 13:08:07 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/22 23:07:43 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <errno.h>
+# include "exec.h"
 
 extern int	g_exit_status;
 
@@ -72,6 +73,7 @@ typedef struct s_data
 	char		*input;
 	t_token		*tokens;
 	t_ast_node	*ast;
+	t_env		*env;
 }	t_data;
 
 void		readline_loop(t_data *data);
@@ -105,7 +107,7 @@ t_ast_node	*handle_redirections(t_data *data,
 void		free_ast(t_ast_node *root);
 void		free_all(t_data *data);
 void		free_all_and_exit_perror(t_data *data, char *msg);
-void		init_data(t_data *data);
+void		init_data(t_data *data, char **env);
 void		safe_add_token_to_list(t_data *data, t_token **head,
 				t_token_type type, char *value);
 void		fill_command_args(t_data *data,
