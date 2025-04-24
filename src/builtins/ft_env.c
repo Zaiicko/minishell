@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:31:30 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/23 20:07:27 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/04/24 17:29:23 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,17 @@ void	ft_unsetenv(t_env *env, char *key)
 
 t_env	*init_env(char **envp)
 {
-	t_env *env;
-	int i;
-	char *key;
-	char *value;
-	char *equal_sign;
+	t_env	*env;
+	int		i;
+	char	*key;
+	char	*value;
+	char	*equal_sign;
 
 	env = malloc(sizeof(t_env));
 	if (!env)
 		return (NULL);
 	env->head = NULL;
 	env->next = NULL;
-
 	i = 0;
 	while (envp[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:18:31 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/23 20:07:35 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:06:07 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_pwd(void)
 		g_exit_status = 1;
 	}
 }
+
 void	ft_oldpwd(void)
 {
 	char	*oldpwd;

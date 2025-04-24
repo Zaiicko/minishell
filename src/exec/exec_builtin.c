@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:31:22 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/23 20:07:58 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/04/24 16:05:51 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	is_builtin(char *cmd)
 		|| !strcmp(cmd, "env") || !strcmp(cmd, "export") || !strcmp(cmd,
 			"unset") || !strcmp(cmd, "exit"));
 }
+
 void	handle_cd(char **args)
 {
 	char	*target;
