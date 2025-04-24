@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
+#    By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/04/22 23:08:22 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/04/23 17:28:55 by nicleena         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,13 @@ SRCS =	main.c\
 	init_data.c\
 	history.c\
 	builtins/ft_env.c\
+	builtins/ft_export.c\
+	builtins/ft_unset.c\
+	builtins/ft_cd.c\
+	builtins/ft_pwd.c\
+	builtins/ft_echo.c\
+	exec/exec_ast.c\
+	exec/exec_builtin.c\
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 

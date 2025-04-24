@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/22 23:07:43 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/23 18:39:06 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,22 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <errno.h>
-# include "exec.h"
 
 extern int	g_exit_status;
+
+typedef struct s_env_var
+{
+	char				*key;
+	char				*value;
+	struct s_env_var	*prev;
+	struct s_env_var	*next;
+}						t_env_var;
+
+typedef struct s_env
+{
+	t_env_var			*head;
+	t_env_var			*next;
+}						t_env;
 
 typedef enum s_node_type
 {
@@ -76,6 +89,8 @@ typedef struct s_data
 	t_env		*env;
 }	t_data;
 
+
+
 void		readline_loop(t_data *data);
 void		start_signals(void);
 void		handle_sigint(int sig);
@@ -113,5 +128,25 @@ void		safe_add_token_to_list(t_data *data, t_token **head,
 void		fill_command_args(t_data *data,
 				t_token **tokens, char **args, int count);
 void		process_user_input(t_data *data);
+
+
+// Builtins 
+t_env *init_env(char **envp);
+int	execute_ast(t_ast_node *node, t_data *data);
+int	exec_command(t_ast_node *node, t_data *data);
+int is_builtin(char *cmd);
+int exec_builtin(char **args, t_env *env);
+void ft_cd(char *path);
+void handle_cd(char **args);
+void ft_echo(char **arg);
+t_env *init_env(char **envp);
+void ft_setenv(t_env *env, char *key, char *value);
+void ft_env(t_env *env);
+void ft_unsetenv(t_env *env, char *key);
+void ft_export(t_env *env);
+void ft_pwd(void);
+void ft_oldpwd(void);
+void ft_unset(t_env *env, char *key);
+int	exec_pipe(t_ast_node *node, t_data *data);
 
 #endif
