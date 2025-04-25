@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 23:25:02 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:47:36 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ void	process_user_input(t_data *data)
 		if (data->tokens)
 		{
 			data->ast = parse(data);
+			if (data->ast)
+			{
+				execute_ast(data->ast, data);
+				free_ast(data->ast);
+				data->ast = NULL;
+			}
+			else
+			{
+				printf("Parsing error\n");
+				g_exit_status = 2;
+			}
 			if (data->ast)
 			{
 				free_ast(data->ast);
