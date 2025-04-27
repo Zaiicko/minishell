@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/23 17:47:36 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/04/27 19:54:12 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	process_user_input(t_data *data)
 			data->ast = parse(data);
 			if (data->ast)
 			{
+				expand_ast(data, data->ast);
+				process_quotes_in_ast(data->ast);
 				execute_ast(data->ast, data);
 				free_ast(data->ast);
 				data->ast = NULL;

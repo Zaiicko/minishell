@@ -1,0 +1,118 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 19:46:16 by zaiicko           #+#    #+#             */
+/*   Updated: 2025/04/27 20:27:07 by zaiicko          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../inc/minishell.h"
+
+/*
+** Expands variables in a string
+*/
+char	*expand_variables(t_data *data, char *str)
+{
+	t_expander	exp;
+	char		*result;
+
+	if (!str)
+		return (NULL);
+	result = ft_calloc(ft_strlen(str) * 2 + 1, sizeof(char));
+	if (!result)
+		return (NULL);
+	exp.read_index = 0;
+	exp.write_index = 0;
+	exp.in_squotes = 0;
+	exp.in_dquotes = 0;
+	while (str[exp.read_index])
+	{
+		if (str[exp.read_index] == '\'' && !exp.in_dquotes)
+			handle_squote(str, result, &exp);
+		else if (str[exp.read_index] == '\"' && !exp.in_squotes)
+			handle_dquote(str, result, &exp);
+		else if (is_expandable_var(str, &exp))
+			handle_variable_expansion(data, str, result, &exp);
+		else
+			result[exp.write_index++] = str[exp.read_index++];
+	}
+	return (result);
+}
+
+/*
+** Handles quote characters
+*/
+void	handle_quotes(char *str, char *result, t_expander *exp)
+{
+	exp->in_squotes = !exp->in_squotes;
+	result[exp->write_index++] = str[exp->read_index++];
+}
+
+/*
+** Handles expansion of variables
+*/
+void	handle_variable_expansion(t_data *data, char *str, char *result,
+	t_expander *exp)
+{
+	char	*var_name;
+	char	*var_value;
+	int		i;
+
+	var_name = extract_var_name(data, str, &exp->read_index);
+	var_value = get_env_value(data, data->env, var_name);
+	i = 0;
+	while (var_value && var_value[i])
+		result[exp->write_index++] = var_value[i++];
+	free(var_name);
+	free(var_value);
+}
+
+/*
+** Expands variables in redirection file
+*/
+void	expand_ast_redirections(t_data *data, t_ast_node *node)
+{
+	char	*expanded;
+
+	if (!node || !node->redir_file)
+		return ;
+	expanded = expand_variables(data, node->redir_file);
+	if (expanded)
+	{
+		free(node->redir_file);
+		node->redir_file = expanded;
+	}
+}
+
+/*
+** Recursively expands variables in the AST
+*/
+void	expand_ast(t_data *data, t_ast_node *node)
+{
+	int		arg_idx;
+	char	*expanded;
+
+	if (!node)
+		return ;
+	if (node->type == NODE_COMMAND && node->args)
+	{
+		arg_idx = 0;
+		while (node->args[arg_idx])
+		{
+			expanded = expand_variables(data, node->args[arg_idx]);
+			if (expanded)
+			{
+				free(node->args[arg_idx]);
+				node->args[arg_idx] = expanded;
+			}
+			arg_idx++;
+		}
+	}
+	expand_ast_redirections(data, node);
+	expand_ast(data, node->l);
+	expand_ast(data, node->r);
+}
