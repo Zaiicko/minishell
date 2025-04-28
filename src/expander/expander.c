@@ -6,30 +6,29 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:46:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/27 20:27:07 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/28 02:33:43 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-/*
-** Expands variables in a string
-*/
 char	*expand_variables(t_data *data, char *str)
 {
 	t_expander	exp;
 	char		*result;
+	int			max_size;
 
 	if (!str)
 		return (NULL);
-	result = ft_calloc(ft_strlen(str) * 2 + 1, sizeof(char));
+	max_size = ft_strlen(str) * 4 + 1;
+	result = ft_calloc(max_size, sizeof(char));
 	if (!result)
 		return (NULL);
 	exp.read_index = 0;
 	exp.write_index = 0;
 	exp.in_squotes = 0;
 	exp.in_dquotes = 0;
-	while (str[exp.read_index])
+	while (str[exp.read_index] && exp.write_index < max_size - 1)
 	{
 		if (str[exp.read_index] == '\'' && !exp.in_dquotes)
 			handle_squote(str, result, &exp);
@@ -40,21 +39,16 @@ char	*expand_variables(t_data *data, char *str)
 		else
 			result[exp.write_index++] = str[exp.read_index++];
 	}
+	result[exp.write_index] = '\0';
 	return (result);
 }
 
-/*
-** Handles quote characters
-*/
 void	handle_quotes(char *str, char *result, t_expander *exp)
 {
 	exp->in_squotes = !exp->in_squotes;
 	result[exp->write_index++] = str[exp->read_index++];
 }
 
-/*
-** Handles expansion of variables
-*/
 void	handle_variable_expansion(t_data *data, char *str, char *result,
 	t_expander *exp)
 {
@@ -71,9 +65,6 @@ void	handle_variable_expansion(t_data *data, char *str, char *result,
 	free(var_value);
 }
 
-/*
-** Expands variables in redirection file
-*/
 void	expand_ast_redirections(t_data *data, t_ast_node *node)
 {
 	char	*expanded;
@@ -88,9 +79,6 @@ void	expand_ast_redirections(t_data *data, t_ast_node *node)
 	}
 }
 
-/*
-** Recursively expands variables in the AST
-*/
 void	expand_ast(t_data *data, t_ast_node *node)
 {
 	int		arg_idx;

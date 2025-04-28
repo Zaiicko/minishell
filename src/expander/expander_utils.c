@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:46:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/27 20:53:52 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/28 02:31:02 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ char	*get_env_value_helper(t_data *data, t_env *env, char *var_name)
 	current_var = env->head;
 	while (current_var)
 	{
-		if (ft_strncmp(current_var->key, var_name,
-				ft_strlen(var_name) + 1) == 0)
+		if (ft_strncmp(current_var->key, var_name, ft_strlen(current_var->key)) == 0)
 		{
 			if (current_var->value)
 				value_str = ft_strdup(current_var->value);

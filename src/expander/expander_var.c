@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:07:02 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/27 20:57:23 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/28 02:31:02 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ static void	process_var_len(t_data *data, char *str, int *index_ptr,
 
 	temp_idx = *index_ptr;
 	var_name = extract_var_name(data, str, &temp_idx);
+	if (!var_name)
+		return;
 	var_value = get_env_value(data, data->env, var_name);
-	*length_ptr += ft_strlen(var_value);
+	if (var_value)
+		*length_ptr += ft_strlen(var_value);
 	*index_ptr = temp_idx - 1;
 	free(var_name);
 	free(var_value);
