@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:07:02 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/29 22:38:15 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 23:28:30 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	calculate_expanded_length(t_data *data, char *str)
 			result_len++;
 		index++;
 	}
-	return (result_len + 1);
+	return (result_len + 2);
 }
 
 int	is_expandable_var(char *str, t_expander *exp)
