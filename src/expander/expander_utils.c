@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:46:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/29 21:25:31 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 21:33:50 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*extract_var_name(char *str, int *index_ptr)
 	return (var_name);
 }
 
-char	*get_env_value_helper(t_data *data, t_env *env, char *var_name)
+char	*get_env_value_helper(t_env *env, char *var_name)
 {
 	t_env_var	*current_var;
 	char		*value_str;
@@ -62,7 +62,7 @@ char	*get_env_value_helper(t_data *data, t_env *env, char *var_name)
 	return (value_str);
 }
 
-char	*get_env_value(t_data *data, t_env *env, char *var_name)
+char	*get_env_value(t_env *env, char *var_name)
 {
 	char		*value_str;
 	extern int	g_exit_status;
@@ -76,7 +76,7 @@ char	*get_env_value(t_data *data, t_env *env, char *var_name)
 			return (NULL);
 		return (value_str);
 	}
-	return (get_env_value_helper(data, env, var_name));
+	return (get_env_value_helper(env, var_name));
 }
 
 void	handle_squote(char *str, char *result, t_expander *exp)

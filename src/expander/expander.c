@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:46:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/29 20:56:07 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 21:34:06 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	handle_variable_expansion(t_data *data, char *str, char *result,
 		free_all_and_exit_perror(data,
 			"Error\n Exctract the variable name failed\n");
 	}
-	var_value = get_env_value(data, data->env, var_name);
+	var_value = get_env_value(data->env, var_name);
 	if (!var_value)
 	{
 		free(result);

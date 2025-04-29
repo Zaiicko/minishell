@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/29 20:56:27 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 21:33:45 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,10 +170,8 @@ void					expand_ast_redirections(t_data *data, t_ast_node *node);
 char					*expand_variables(t_data *data, char *str);
 void					handle_variable_expansion(t_data *data, char *str,
 							char *result, t_expander *exp);
-char					*get_env_value(t_data *data, t_env *env,
-							char *var_name);
-char					*get_env_value_helper(t_data *data, t_env *env,
-							char *var_name);
+char					*get_env_value(t_env *env, char *var_name);
+char					*get_env_value_helper(t_env *env, char *var_name);
 char					*extract_var_name(char *str, int *index_ptr);
 
 void					handle_squote(char *str, char *result, t_expander *exp);
