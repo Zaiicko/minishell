@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:46:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/29 20:55:49 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 21:19:39 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ char	*get_env_value(t_data *data, t_env *env, char *var_name)
 	extern int	g_exit_status;
 
 	if (!var_name)
-		free_all_and_exit_perror(data, "Error\n NULL variable name\n");
+		return (NULL);
 	if (ft_strncmp(var_name, "?", ft_strlen(var_name)) == 0)
 	{
 		value_str = ft_itoa(g_exit_status);
 		if (!value_str)
-			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+			return (NULL);
 		return (value_str);
 	}
 	return (get_env_value_helper(data, env, var_name));
