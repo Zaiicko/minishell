@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:46:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/29 00:45:54 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 14:20:59 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ void	expand_ast_redirections(t_data *data, t_ast_node *node)
 		free(node->redir_file);
 		node->redir_file = expanded;
 	}
+	else
+		free_all_and_exit_perror(data,
+			"Error\n Variable expansion failed\n");
 }
 
 void	expand_ast(t_data *data, t_ast_node *node)
@@ -110,6 +113,9 @@ void	expand_ast(t_data *data, t_ast_node *node)
 				free(node->args[arg_idx]);
 				node->args[arg_idx] = expanded;
 			}
+			else
+				free_all_and_exit_perror(data,
+					"Error\n Variable expansion failed\n");
 			arg_idx++;
 		}
 	}
