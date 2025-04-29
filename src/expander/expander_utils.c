@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:46:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/29 21:19:39 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 21:25:31 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ char	*get_env_value_helper(t_data *data, t_env *env, char *var_name)
 			else
 				value_str = ft_strdup("");
 			if (!value_str)
-				free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+				return (NULL);
 			return (value_str);
 		}
 		current_var = current_var->next;
 	}
 	value_str = ft_strdup("");
 	if (!value_str)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		return (NULL);
 	return (value_str);
 }
 
