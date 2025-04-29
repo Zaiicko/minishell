@@ -6,13 +6,13 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:46:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/28 02:31:02 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 20:55:49 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*extract_var_name(t_data *data, char *str, int *index_ptr)
+char	*extract_var_name(char *str, int *index_ptr)
 {
 	int		start_pos;
 	char	*var_name;
@@ -23,7 +23,7 @@ char	*extract_var_name(t_data *data, char *str, int *index_ptr)
 		(*index_ptr)++;
 		var_name = ft_strdup("?");
 		if (!var_name)
-			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+			return (NULL);
 		return (var_name);
 	}
 	start_pos = *index_ptr;
@@ -32,7 +32,7 @@ char	*extract_var_name(t_data *data, char *str, int *index_ptr)
 		(*index_ptr)++;
 	var_name = ft_substr(str, start_pos, *index_ptr - start_pos);
 	if (!var_name)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		return (NULL);
 	return (var_name);
 }
 

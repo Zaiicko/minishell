@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:46:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/29 14:20:59 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 20:56:07 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	handle_variable_expansion(t_data *data, char *str, char *result,
 	char	*var_value;
 	int		i;
 
-	var_name = extract_var_name(data, str, &exp->read_index);
+	var_name = extract_var_name(str, &exp->read_index);
 	if (!var_name)
 	{
 		free(result);
