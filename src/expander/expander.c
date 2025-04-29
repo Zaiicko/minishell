@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:46:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/29 21:34:06 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 21:43:51 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*expand_variables(t_data *data, char *str)
 
 	if (!str)
 		return (NULL);
-	max_size = ft_strlen(str) * 4 + 1;
+	max_size = calculate_expanded_length(data, str);
 	result = ft_calloc(max_size, sizeof(char));
 	if (!result)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/29 21:33:45 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/04/29 21:45:32 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void					handle_variable_expansion(t_data *data, char *str,
 char					*get_env_value(t_env *env, char *var_name);
 char					*get_env_value_helper(t_env *env, char *var_name);
 char					*extract_var_name(char *str, int *index_ptr);
+int						calculate_expanded_length(t_data *data, char *str);
 
 void					handle_squote(char *str, char *result, t_expander *exp);
 void					handle_dquote(char *str, char *result, t_expander *exp);
