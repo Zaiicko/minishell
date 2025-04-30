@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/29 21:45:32 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/01 01:28:48 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,9 +178,10 @@ int						calculate_expanded_length(t_data *data, char *str);
 void					handle_squote(char *str, char *result, t_expander *exp);
 void					handle_dquote(char *str, char *result, t_expander *exp);
 int						is_expandable_var(char *str, t_expander *exp);
-void					process_quotes_in_ast(t_ast_node *node);
-void					prepare_cmd_for_execution(t_ast_node *node);
-void					clean_quotes_from_args(char **args);
-char					*remove_quotes(char *str);
+void					process_quotes_in_ast(t_data *data, t_ast_node *node);
+void					prepare_cmd_for_execution(t_data *data,
+							t_ast_node *node);
+void					clean_quotes_from_args(t_data *data, char **args);
+char					*remove_quotes(t_data *data, char *str);
 
 #endif

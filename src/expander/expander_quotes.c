@@ -6,22 +6,22 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:06:12 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/27 20:54:59 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/01 01:34:33 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	process_quotes_in_ast(t_ast_node *node)
+void	process_quotes_in_ast(t_data *data, t_ast_node *node)
 {
 	if (!node)
 		return ;
-	prepare_cmd_for_execution(node);
-	process_quotes_in_ast(node->l);
-	process_quotes_in_ast(node->r);
+	prepare_cmd_for_execution(data, node);
+	process_quotes_in_ast(data, node->l);
+	process_quotes_in_ast(data, node->r);
 }
 
-static char	*strip_quotes(char *str)
+static char	*strip_quotes(t_data *data, char *str)
 {
 	int		i;
 	int		j;
@@ -30,9 +30,9 @@ static char	*strip_quotes(char *str)
 
 	if (!str)
 		return (NULL);
-	result = malloc(ft_strlen(str) + 1);
+	result = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
 	if (!result)
-		return (NULL);
+		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
 	i = 0;
 	j = 0;
 	quote_type = 0;
@@ -55,18 +55,18 @@ static char	*strip_quotes(char *str)
 	return (result);
 }
 
-char	*remove_quotes(char *str)
+char	*remove_quotes(t_data *data, char *str)
 {
 	char	*result;
 
 	if (!str)
 		return (NULL);
-	result = strip_quotes(str);
+	result = strip_quotes(data, str);
 	free(str);
 	return (result);
 }
 
-void	clean_quotes_from_args(char **args)
+void	clean_quotes_from_args(t_data *data, char **args)
 {
 	int	i;
 
@@ -75,22 +75,22 @@ void	clean_quotes_from_args(char **args)
 	i = 0;
 	while (args[i])
 	{
-		args[i] = remove_quotes(args[i]);
+		args[i] = remove_quotes(data, args[i]);
 		i++;
 	}
 }
 
-void	prepare_cmd_for_execution(t_ast_node *node)
+void	prepare_cmd_for_execution(t_data *data, t_ast_node *node)
 {
 	char	*expanded;
 
 	if (!node)
 		return ;
 	if (node->type == NODE_COMMAND && node->args)
-		clean_quotes_from_args(node->args);
+		clean_quotes_from_args(data, node->args);
 	if (node->redir_file)
 	{
-		expanded = remove_quotes(ft_strdup(node->redir_file));
+		expanded = remove_quotes(data, ft_strdup(node->redir_file));
 		if (expanded)
 		{
 			free(node->redir_file);

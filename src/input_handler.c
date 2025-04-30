@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/27 19:54:12 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/01 01:16:46 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	process_user_input(t_data *data)
 			if (data->ast)
 			{
 				expand_ast(data, data->ast);
-				process_quotes_in_ast(data->ast);
+				process_quotes_in_ast(data, data->ast);
 				execute_ast(data->ast, data);
 				free_ast(data->ast);
 				data->ast = NULL;
