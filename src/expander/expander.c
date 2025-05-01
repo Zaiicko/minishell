@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:46:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/01 03:47:22 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/01 15:07:54 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ char	*expand_variables(t_data *data, char *str)
 	if (!str)
 		return (NULL);
 	max_size = calculate_expanded_length(data, str);
-	if (!max_size)
-		free_all_and_exit_perror(data,
-			"Error\n Length calcul of expanded var failed\n");
 	result = ft_calloc(max_size, sizeof(char));
 	if (!result)
 		return (NULL);
