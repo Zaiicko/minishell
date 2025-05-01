@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/01 01:28:48 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/01 03:35:44 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,5 @@ void					process_quotes_in_ast(t_data *data, t_ast_node *node);
 void					prepare_cmd_for_execution(t_data *data,
 							t_ast_node *node);
 void					clean_quotes_from_args(t_data *data, char **args);
-char					*remove_quotes(t_data *data, char *str);
 
 #endif
