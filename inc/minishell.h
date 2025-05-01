@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/01 03:35:44 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/01 13:16:03 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_data
 	t_token				*tokens;
 	t_ast_node			*ast;
 	t_env				*env;
+	t_expander			exp;
 }						t_data;
 
 void					readline_loop(t_data *data);
