@@ -6,13 +6,13 @@
 #    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/04/27 20:29:49 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/05/01 03:44:23 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 READLINE_PATH = $(shell brew --prefix readline)
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -47,6 +47,7 @@ SRCS =	main.c\
 	expander/expander_utils.c\
 	expander/expander_var.c\
 	expander/expander_quotes.c\
+	expander/expander_utils2.c\
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 
