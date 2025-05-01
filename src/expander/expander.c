@@ -6,11 +6,31 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:46:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/30 20:34:28 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/01 03:47:22 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+static void	process_expansion(t_data *data, char *str, char *result,
+	t_expander *exp)
+{
+	int	max_size;
+
+	max_size = calculate_expanded_length(data, str);
+	while (str[exp->read_index] && exp->write_index < max_size - 1)
+	{
+		if (str[exp->read_index] == '\'' && !exp->in_dquotes)
+			handle_squote(str, result, exp);
+		else if (str[exp->read_index] == '\"' && !exp->in_squotes)
+			handle_dquote(str, result, exp);
+		else if (is_expandable_var(str, exp))
+			handle_variable_expansion(data, str, result, exp);
+		else
+			result[exp->write_index++] = str[exp->read_index++];
+	}
+	result[exp->write_index] = '\0';
+}
 
 char	*expand_variables(t_data *data, char *str)
 {
@@ -31,25 +51,8 @@ char	*expand_variables(t_data *data, char *str)
 	exp.write_index = 0;
 	exp.in_squotes = 0;
 	exp.in_dquotes = 0;
-	while (str[exp.read_index] && exp.write_index < max_size - 1)
-	{
-		if (str[exp.read_index] == '\'' && !exp.in_dquotes)
-			handle_squote(str, result, &exp);
-		else if (str[exp.read_index] == '\"' && !exp.in_squotes)
-			handle_dquote(str, result, &exp);
-		else if (is_expandable_var(str, &exp))
-			handle_variable_expansion(data, str, result, &exp);
-		else
-			result[exp.write_index++] = str[exp.read_index++];
-	}
-	result[exp.write_index] = '\0';
+	process_expansion(data, str, result, &exp);
 	return (result);
-}
-
-void	handle_quotes(char *str, char *result, t_expander *exp)
-{
-	exp->in_squotes = !exp->in_squotes;
-	result[exp->write_index++] = str[exp->read_index++];
 }
 
 void	handle_variable_expansion(t_data *data, char *str, char *result,
