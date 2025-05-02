@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:21:58 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/02 18:14:03 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:44:00 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,49 +147,62 @@ int exec_pipe(t_ast_node *node, t_data *data)
     
     return (g_exit_status);
 }
-int	exec_redirection(t_ast_node *node, t_data *data)
+int exec_redirection(t_ast_node *node, t_data *data)
 {
-	int fd;
-	int saved_fd;
-	int status;
-	int std_fd;
+    int fd;
+    int saved_fd;
+    int std_fd;
+    int status = 0;
 
-	if (node->type == NODE_REDIR_IN || node->type == NODE_HEREDOC)
-		std_fd = STDIN_FILENO;
-	else
-		std_fd = STDOUT_FILENO;
-
-	saved_fd = dup(std_fd);
-	if (saved_fd < 0)
-		return (perror("dup"), g_exit_status = 1);
-	if (node->type == NODE_REDIR_IN)
-		fd = open(node->redir_file, O_RDONLY);
-	else if (node->type == NODE_REDIR_OUT)
-		fd = open(node->redir_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (node->type == NODE_APPEND)
-		fd = open(node->redir_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (node->type == NODE_HEREDOC)
-		fd = open(node->redir_file, O_RDONLY);
-	else
-		fd = -1;
-	if (fd < 0)
-	{
-		ft_putstr_error("minishell: ", node->redir_file, ": ");
-		ft_putstr_error(strerror(errno), NULL, NULL);
-		close(saved_fd);
-		return (g_exit_status = 1);
-	}
-	if (dup2(fd, std_fd) < 0)
-	{
-		perror("dup2");
-		close(fd);
-		close(saved_fd);
-		return (g_exit_status = 1);
-	}
-	close(fd);
-	status = execute_ast(node->l, data);
-	dup2(saved_fd, std_fd);
-	close(saved_fd);
-	g_exit_status = status;
-	return (g_exit_status);
+    // Définir le descripteur à rediriger
+    if (node->type == NODE_REDIR_IN || node->type == NODE_HEREDOC)
+        std_fd = STDIN_FILENO;
+    else
+        std_fd = STDOUT_FILENO;
+    
+    // Sauvegarder le descripteur original
+    saved_fd = dup(std_fd);
+    if (saved_fd < 0)
+        return (perror("dup"), g_exit_status = 1); 
+    
+    // Ouvrir le fichier de redirection
+    if (node->type == NODE_REDIR_IN)
+        fd = open(node->redir_file, O_RDONLY);
+    else if (node->type == NODE_REDIR_OUT)
+        fd = open(node->redir_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    else if (node->type == NODE_APPEND)
+        fd = open(node->redir_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    else if (node->type == NODE_HEREDOC)
+        fd = open(node->redir_file, O_RDONLY);
+    else
+        fd = -1;
+    
+    // Gérer les erreurs d'ouverture
+    if (fd < 0)
+    {
+        ft_putstr_error("minishell: ", node->redir_file, ": ");
+        ft_putstr_error(strerror(errno), NULL, NULL);
+        close(saved_fd);
+        return (g_exit_status = 1);
+    }
+    
+    // Rediriger le descripteur
+    if (dup2(fd, std_fd) < 0)
+    {
+        perror("dup2");
+        close(fd);
+        close(saved_fd);
+        return (g_exit_status = 1);
+    }
+    close(fd);
+    
+    // Exécuter la commande ou les redirections suivantes
+    if (node->l)
+        status = execute_ast(node->l, data);
+    
+    // Restaurer le descripteur original
+    dup2(saved_fd, std_fd);
+    close(saved_fd);
+    
+    return status;
 }

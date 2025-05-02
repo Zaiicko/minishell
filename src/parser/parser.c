@@ -3,34 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 18:02:59 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/02 18:46:09 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	fill_command_args(t_data *data,
-		t_token **tokens, char **args, int count)
+void fill_command_args(t_data *data, t_token **tokens, char **args, int count)
 {
-	int	i;
+    int     i;
+    t_token *current;
 
-	i = 0;
-	while (i < count)
-	{
-		args[i] = ft_strdup((*tokens)->value);
-		if (!args[i])
-		{
-			args[i] = NULL;
-			ft_free_tab(args),
-			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
-		}
-		*tokens = (*tokens)->next;
-		i++;
-	}
-	args[i] = NULL;
+    i = 0;
+    current = *tokens;
+    while (current && i < count)
+    {
+        if (current->type == TOKEN_WORD)
+        {
+            args[i] = ft_strdup(current->value);
+            if (!args[i])
+                free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+            i++;
+        }
+        else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT ||
+                current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
+        {
+            if (current->next)
+                current = current->next;
+            else
+                break;
+        }
+        else
+            break;
+        current = current->next;
+    }
+    args[i] = NULL;
+    *tokens = current;
 }
 
 t_ast_node	*parse_command(t_data *data, t_token **tokens)

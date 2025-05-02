@@ -3,28 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 23:52:07 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/02 18:45:59 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	count_command_args(t_token *tokens)
+int count_command_args(t_token *tokens)
 {
-	int		count;
-	t_token	*current;
+    int     count;
+    t_token *current;
 
-	count = 0;
-	current = tokens;
-	while (current && current->type == TOKEN_WORD)
-	{
-		count++;
-		current = current->next;
-	}
-	return (count);
+    count = 0;
+    current = tokens;
+    while (current)
+    {
+        if (current->type == TOKEN_WORD)
+            count++;
+        else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT ||
+                current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
+        {
+            if (current->next)
+                current = current->next;
+        }
+        else
+            break; 
+        current = current->next;
+    }
+    return (count);
 }
 
 t_node_type	convert_type(t_token_type token_type)

@@ -6,11 +6,9 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:19:41 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/02 15:42:06 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:39:16 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../../inc/minishell.h"
 
 #include "../../inc/minishell.h"
 
