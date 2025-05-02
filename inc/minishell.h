@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/02 14:46:09 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/02 16:19:48 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,14 +148,12 @@ void					fill_command_args(t_data *data, t_token **tokens,
 t_env					*init_env(char **envp);
 void					ft_setenv(t_env *env, char *key, char *value);
 void					ft_unsetenv(t_env *env, char *key);
-void					ft_unset(t_env *env, char *key);
-
+int						ft_unset(char **args, t_env *env);
 int						execute_ast(t_ast_node *node, t_data *data);
 int						exec_command(t_ast_node *node, t_data *data);
 int						exec_pipe(t_ast_node *node, t_data *data);
 void					exec_pipe_child(int pipefd[2], t_ast_node *node,
 							t_data *data, int fd);
-
 int						is_builtin(char *cmd);
 int						exec_builtin(char **args, t_env *env);
 void					ft_tilde(void);
@@ -167,7 +165,7 @@ void					ft_env(t_env *env);
 void					ft_export(t_env *env);
 void					ft_pwd(void);
 void					ft_oldpwd(void);
-void					ft_unset(t_env *env, char *key);
+
 int						exec_pipe(t_ast_node *node, t_data *data);
 void					exec_pipe_child(int pipefd[2], t_ast_node *node,
 							t_data *data, int fd);
@@ -175,5 +173,15 @@ int						exec_redirection(t_ast_node *node, t_data *data);
 int						handle_exit(char **args);
 void					expand_ast(t_data *data, t_ast_node *node);
 void					process_quotes_in_ast(t_data *data, t_ast_node *node);
-
+int						calculate_expanded_length(t_data *data, char *str);
+void					handle_squote(char *str, char *result, t_expander *exp);
+void					handle_dquote(char *str, char *result, t_expander *exp);
+int						is_expandable_var(char *str, t_expander *exp);
+void					handle_variable_expansion(t_data *data, char *str,
+							char *result, t_expander *exp);
+char					*extract_var_name(char *str, int *index);
+char					*get_env_value(t_env *env, char *key);
+void					prepare_cmd_for_execution(t_data *data,
+							t_ast_node *node);
+void					ft_putstr_error(char *s1, char *s2, char *s3);
 #endif

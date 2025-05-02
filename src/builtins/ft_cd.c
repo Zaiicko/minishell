@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/02 14:51:51 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/02 16:36:50 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void ft_tilde(void)
         char *oldpwd = getcwd(NULL, 0);
         if (chdir(home) == -1)
         {
-            fprintf(stderr, "minishell: cd: %s: %s\n", home, strerror(errno));
+            ft_putstr_error("minishell: cd: ", home, ": ");
+            ft_putstr_error(strerror(errno), NULL, NULL);
             g_exit_status = 1;
         }
         else
@@ -52,7 +53,7 @@ void ft_tilde(void)
     }
     else
     {
-        fprintf(stderr, "minishell: cd: HOME not set\n");
+        ft_putstr_error("minishell: cd: HOME not set", NULL, NULL);
         g_exit_status = 1;
     }
 }
@@ -67,7 +68,8 @@ void ft_cd_oldpwd(void)
         char *current = getcwd(NULL, 0);
         if (chdir(oldpwd) == -1)
         {
-            fprintf(stderr, "minishell: cd: %s: %s\n", oldpwd, strerror(errno));
+            ft_putstr_error("minishell: cd: ", oldpwd, ": ");
+            ft_putstr_error(strerror(errno), NULL, NULL);
             g_exit_status = 1;
         }
         else
@@ -79,7 +81,7 @@ void ft_cd_oldpwd(void)
     }
     else
     {
-        fprintf(stderr, "minishell: cd: OLDPWD not set\n");
+        ft_putstr_error("minishell: cd: OLDPWD not set", NULL, NULL);
         g_exit_status = 1;
     }
 }
@@ -89,6 +91,7 @@ int ft_cd(char **args)
     char *path;
     char *oldpwd;
 
+	g_exit_status = 0;
     if (!args[1])
     {
         ft_tilde();
@@ -110,7 +113,8 @@ int ft_cd(char **args)
         oldpwd = getcwd(NULL, 0);
         if (chdir(path) == -1)
         {
-            fprintf(stderr, "minishell: cd: %s: %s\n", path, strerror(errno));
+            ft_putstr_error("minishell: cd: ", path, ": ");
+            ft_putstr_error(strerror(errno), NULL, NULL);
             g_exit_status = 1;
             free(oldpwd);
         }
@@ -124,7 +128,8 @@ int ft_cd(char **args)
     oldpwd = getcwd(NULL, 0);
     if (chdir(path) == -1)
     {
-        fprintf(stderr, "minishell: cd: %s: %s\n", path, strerror(errno));
+        ft_putstr_error("minishell: cd: ", path, ": ");
+        ft_putstr_error(strerror(errno), NULL, NULL);
         g_exit_status = 1;
         free(oldpwd);
     }
