@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:31:30 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/24 17:29:23 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 01:05:47 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,26 @@ t_env	*init_env(char **envp)
 		i++;
 	}
 	return (env);
+}
+
+void	free_env(t_env *env)
+{
+	t_env_var	*current;
+	t_env_var	*next;
+
+	if (!env)
+		return ;
+
+	current = env->head;
+	while (current)
+	{
+		next = current->next;
+		if (current->key)
+			free(current->key);
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = next;
+	}
+	free(env);
 }

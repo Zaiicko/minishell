@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 22:37:38 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/02 16:12:41 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 01:02:11 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	free_all(t_data *data)
 		free_token_list(&data->tokens);
 	if (data->ast)
 		free_ast(data->ast);
+	if (data->env)
+		free_env(data->env);
 }
 
 void	free_all_and_exit_perror(t_data *data, char *msg)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/02 16:19:48 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 01:06:12 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,4 +184,6 @@ char					*get_env_value(t_env *env, char *key);
 void					prepare_cmd_for_execution(t_data *data,
 							t_ast_node *node);
 void					ft_putstr_error(char *s1, char *s2, char *s3);
+void					free_env(t_env *env);
+
 #endif
