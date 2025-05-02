@@ -6,38 +6,39 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/24 17:28:18 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:29:45 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ft_cd(char *path)
+void ft_cd(char *path)
 {
-	char	*oldpwd;
-	char	*newpwd;
+    char *oldpwd;
+    char *newpwd;
 
-	oldpwd = getcwd(NULL, 0);
-	if (chdir(path) == -1)
-	{
-		perror("cd");
-		g_exit_status = 1;
-		free(oldpwd);
-		return ;
-	}
-	newpwd = getcwd(NULL, 0);
-	if (newpwd)
-	{
-		setenv("OLDPWD", oldpwd, 1);
-		setenv("PWD", newpwd, 1);
-		free(newpwd);
-	}
-	else
-	{
-		perror("getcwd");
-		g_exit_status = 1;
-	}
-	free(oldpwd);
+    oldpwd = getcwd(NULL, 0);
+    if (chdir(path) == -1)
+    {
+        fprintf(stderr, "minishell: cd: %s: %s\n", path, strerror(errno));
+        g_exit_status = 1;
+        free(oldpwd);
+        return;
+    }
+    newpwd = getcwd(NULL, 0);
+    if (newpwd)
+    {
+        setenv("OLDPWD", oldpwd, 1);
+        setenv("PWD", newpwd, 1);
+        free(newpwd);
+        g_exit_status = 0;
+    }
+    else
+    {
+        perror("getcwd");
+        g_exit_status = 1;
+    }
+    free(oldpwd);
 }
 
 void	ft_cd_oldpwd(void)

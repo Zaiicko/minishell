@@ -6,27 +6,28 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:18:31 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/24 16:06:07 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:29:56 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ft_pwd(void)
+void ft_pwd(void)
 {
-	char	*cwd;
+    char *cwd;
 
-	cwd = getcwd(NULL, 0);
-	if (cwd)
-	{
-		printf("%s\n", cwd);
-		free(cwd);
-	}
-	else
-	{
-		perror("getcwd");
-		g_exit_status = 1;
-	}
+    cwd = getcwd(NULL, 0);
+    if (cwd)
+    {
+        printf("%s\n", cwd);
+        free(cwd);
+        g_exit_status = 0;
+    }
+    else
+    {
+        perror("getcwd");
+        g_exit_status = 1;
+    }
 }
 
 void	ft_oldpwd(void)

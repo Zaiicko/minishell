@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_data.c                                        :+:      :+:    :+:   */
+/*   expander_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/20 14:09:02 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/27 20:53:21 by zaiicko          ###   ########.fr       */
+/*   Created: 2025/05/01 03:44:00 by zaiicko           #+#    #+#             */
+/*   Updated: 2025/05/01 03:49:21 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-void	init_data(t_data *data, char **env)
+void	handle_quotes(char *str, char *result, t_expander *exp)
 {
-	data->input = NULL;
-	data->tokens = NULL;
-	data->ast = NULL;
-	data->env = init_env(env);
-	if (!data->env)
-		free_all_and_exit_perror(data, "Error\n Env init failed\n");
+	exp->in_squotes = !exp->in_squotes;
+	result[exp->write_index++] = str[exp->read_index++];
 }
