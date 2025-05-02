@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/04/24 17:27:51 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/02 13:18:14 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,5 +149,6 @@ void					ft_unset(t_env *env, char *key);
 int						exec_pipe(t_ast_node *node, t_data *data);
 void					exec_pipe_child(int pipefd[2], t_ast_node *node,
 							t_data *data, int fd);
-
+int exec_redirection(t_ast_node *node, t_data *data);
+							
 #endif
