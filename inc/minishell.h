@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/02 14:33:18 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:46:09 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,9 @@ void					exec_pipe_child(int pipefd[2], t_ast_node *node,
 
 int						is_builtin(char *cmd);
 int						exec_builtin(char **args, t_env *env);
-void					ft_cd(char *path);
+void					ft_tilde(void);
+void					ft_cd_oldpwd(void);
+int						ft_cd(char **args);
 void					handle_cd(char **args);
 void					ft_echo(char **arg);
 void					ft_env(t_env *env);
@@ -171,7 +173,7 @@ void					exec_pipe_child(int pipefd[2], t_ast_node *node,
 							t_data *data, int fd);
 int						exec_redirection(t_ast_node *node, t_data *data);
 int						handle_exit(char **args);
-void expand_ast(t_data *data, t_ast_node *node);
-void process_quotes_in_ast(t_data *data, t_ast_node *node);
+void					expand_ast(t_data *data, t_ast_node *node);
+void					process_quotes_in_ast(t_data *data, t_ast_node *node);
 
 #endif
