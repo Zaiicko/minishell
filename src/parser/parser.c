@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 16:19:29 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:46:15 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,16 @@ void	fill_command_args(t_data *data, t_token **tokens, char **args,
 {
 	int		i;
 	t_token	*current;
+	t_token	*next;
 
 	i = 0;
 	current = *tokens;
 	while (current && i < count)
 	{
-		if (current->type == TOKEN_WORD)
-		{
-			args[i] = ft_strdup(current->value);
-			if (!args[i])
-				free_all_and_exit_perror(data, "Error\n Malloc failed\n");
-			i++;
-		}
-		else if (current->type == TOKEN_REDIR_IN
-			|| current->type == TOKEN_REDIR_OUT || current->type == TOKEN_APPEND
-			|| current->type == TOKEN_HEREDOC)
-		{
-			if (current->next)
-				current = current->next;
-			else
-				break ;
-		}
-		else
+		next = process_token(data, current, args, &i);
+		if (!next)
 			break ;
-		current = current->next;
+		current = next;
 	}
 	args[i] = NULL;
 	*tokens = current;

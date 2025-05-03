@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 18:38:29 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:46:01 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,5 +187,10 @@ void					ft_putstr_error(char *s1, char *s2, char *s3);
 void					free_env(t_env *env);
 void					start_exec_signals(void);
 void					start_parent_exec_signals(void);
+int						is_redirection_token(t_token_type type);
+t_token					*collect_redirections(t_data *data, t_token **tokens);
+t_token					*process_redirection_token(t_token *current);
+t_token					*process_token(t_data *data, t_token *current,
+							char **args, int *i);
 
 #endif

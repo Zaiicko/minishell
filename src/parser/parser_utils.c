@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 16:12:42 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:42:58 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,33 +78,13 @@ void	free_ast(t_ast_node *root)
 t_ast_node	*handle_redirections(t_data *data, t_token **tokens,
 		t_ast_node *cmd)
 {
-	t_token		*current;
 	t_ast_node	*result;
-	t_node_type	type;
 	t_token		*redirs;
 	t_token		*temp;
+	t_node_type	type;
 
 	result = cmd;
-	current = *tokens;
-	redirs = NULL;
-	while (current && (current->type == TOKEN_REDIR_IN
-			|| current->type == TOKEN_REDIR_OUT || current->type == TOKEN_APPEND
-			|| current->type == TOKEN_HEREDOC))
-	{
-		temp = malloc(sizeof(t_token));
-		if (!temp)
-			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
-		temp->type = current->type;
-		temp->next = redirs;
-		redirs = temp;
-		current = current->next;
-		if (!current || current->type != TOKEN_WORD)
-			free_all_and_exit_perror(data, "Error\n Missing filename\n");
-		temp->value = ft_strdup(current->value);
-		if (!temp->value)
-			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
-		current = current->next;
-	}
+	redirs = collect_redirections(data, tokens);
 	temp = redirs;
 	while (temp)
 	{
@@ -121,6 +101,5 @@ t_ast_node	*handle_redirections(t_data *data, t_token **tokens,
 		free(temp);
 		temp = redirs;
 	}
-	*tokens = current;
 	return (result);
 }

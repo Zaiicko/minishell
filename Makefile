@@ -6,7 +6,7 @@
 #    By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/05/03 17:17:09 by nicleena         ###   ########.fr        #
+#    Updated: 2025/05/03 18:51:05 by nicleena         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,9 @@ SRCS =	main.c\
     builtins/ft_pwd.c\
     builtins/ft_echo.c\
 	builtins/ft_exit.c\
+	builtins/ft_cd_utils.c\
+	builtins/ft_env_utils.c\
+	parser/parser_utils2.c\
     exec/exec_ast.c\
     exec/exec_builtin.c\
     expander/expander.c\

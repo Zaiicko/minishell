@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:50:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 17:18:14 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:48:37 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_numeric_arg(char *str)
 	return (1);
 }
 
-int	handle_exit(char **args)
+int	handle_exit(char **args, t_data *data)
 {
 	int	exit_code;
 
@@ -39,6 +39,7 @@ int	handle_exit(char **args)
 		{
 			ft_putstr_error("minishell: exit: ", args[1],
 				": numeric argument required");
+			free_all(data);
 			exit(255);
 		}
 		else if (args[2])
@@ -48,8 +49,10 @@ int	handle_exit(char **args)
 			return (g_exit_status);
 		}
 		exit_code = ft_atoi(args[1]) % 256;
+		free_all(data);
 		exit(exit_code);
 	}
+	free_all(data);
 	exit(g_exit_status);
 	return (0);
 }

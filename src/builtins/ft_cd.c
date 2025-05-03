@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 17:57:12 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:36:45 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	ft_cd_oldpwd(t_env *env, t_data *data)
 	}
 }
 
-// 3. Corriger la définition de ft_cd
 int	ft_cd(char **args, t_env *env, t_data *data)
 {
 	char	*path;
@@ -105,39 +104,11 @@ int	ft_cd(char **args, t_env *env, t_data *data)
 		return (g_exit_status);
 	}
 	else if (ft_strncmp(path, "-", 1) == 0)
-	{
-		ft_cd_oldpwd(env, data);
-		return (g_exit_status);
-	}
+		return (ft_cd_oldpwd(env, data), g_exit_status);
 	else if (ft_strncmp(path, "/", 1) == 0)
 	{
 		oldpwd = getcwd(NULL, 0);
-		if (chdir(path) == -1)
-		{
-			ft_putstr_error("minishell: cd: ", path, ": ");
-			ft_putstr_error(strerror(errno), NULL, NULL);
-			g_exit_status = 1;
-			free(oldpwd);
-		}
-		else
-		{
-			update_pwd_vars(oldpwd, env, data);
-			free(oldpwd);
-		}
-		return (g_exit_status);
+		return (handle_absolute_path(path, oldpwd, env, data));
 	}
-	oldpwd = getcwd(NULL, 0);
-	if (chdir(path) == -1)
-	{
-		ft_putstr_error("minishell: cd: ", path, ": ");
-		ft_putstr_error(strerror(errno), NULL, NULL);
-		g_exit_status = 1;
-		free(oldpwd);
-	}
-	else
-	{
-		update_pwd_vars(oldpwd, env, data);
-		free(oldpwd);
-	}
-	return (g_exit_status);
+	return (handle_relative_path(path, env, data));
 }

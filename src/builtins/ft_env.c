@@ -6,27 +6,41 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:31:30 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 16:22:03 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:30:32 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ft_env(t_env *env)
+static t_env_var	*create_env_var(char *key, char *value, t_data *data)
 {
-	t_env_var	*current;
+	t_env_var	*new_var;
 
-	if (!env || !env->head)
-		return ;
-	current = env->head;
-	while (current)
+	new_var = malloc(sizeof(t_env_var));
+	if (!new_var)
+		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
+	new_var->key = strdup(key);
+	if (!new_var->key)
 	{
-		if (current->value)
-			printf("%s=%s\n", current->key, current->value);
-		else
-			printf("%s\n", current->key);
-		current = current->next;
+		free(new_var);
+		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
 	}
+	new_var->value = strdup(value);
+	if (!new_var->value)
+	{
+		free(new_var->key);
+		free(new_var);
+		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
+	}
+	return (new_var);
+}
+
+static void	update_existing_env(t_env_var *current, char *value, t_data *data)
+{
+	free(current->value);
+	current->value = strdup(value);
+	if (!current->value)
+		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
 }
 
 void	ft_setenv(t_env *env, char *key, char *value, t_data *data)
@@ -41,42 +55,12 @@ void	ft_setenv(t_env *env, char *key, char *value, t_data *data)
 	{
 		if (strcmp(current->key, key) == 0)
 		{
-			free(current->value);
-			current->value = strdup(value);
-			if (!current->value)
-				free_all_and_exit_perror(data,
-					"Error\n Malloc allocation failed\n");
+			update_existing_env(current, value, data);
 			return ;
 		}
 		current = current->next;
 	}
-	new_var = malloc(sizeof(t_env_var));
-	if (!new_var)
-	{
-		free(value);
-		free(key);
-		free(env);
-		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
-	}
-	new_var->key = strdup(key);
-	if (!new_var->key)
-	{
-		free(value);
-		free(key);
-		free(env);
-		free(new_var);
-		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
-	}
-	new_var->value = strdup(value);
-	if (!new_var->value)
-	{
-		free(new_var->key);
-		free(value);
-		free(key);
-		free(env);
-		free(new_var);
-		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
-	}
+	new_var = create_env_var(key, value, data);
 	new_var->next = env->head;
 	new_var->prev = NULL;
 	if (env->head)
@@ -84,92 +68,44 @@ void	ft_setenv(t_env *env, char *key, char *value, t_data *data)
 	env->head = new_var;
 }
 
-void	ft_unsetenv(t_env *env, char *key)
+static void	process_env_entry(t_env *env, char *entry, t_data *data)
 {
-	t_env_var	*current;
+	char	*key;
+	char	*value;
+	char	*equal_sign;
 
-	if (!env || !env->head || !key)
+	equal_sign = strchr(entry, '=');
+	if (!equal_sign)
 		return ;
-	current = env->head;
-	while (current)
+	key = ft_substr(entry, 0, equal_sign - entry);
+	if (!key)
+		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+	value = ft_strdup(equal_sign + 1);
+	if (!value)
 	{
-		if (strcmp(current->key, key) == 0)
-		{
-			if (current->prev)
-				current->prev->next = current->next;
-			else
-				env->head = current->next;
-			if (current->next)
-				current->next->prev = current->prev;
-			free(current->key);
-			free(current->value);
-			free(current);
-			return ;
-		}
-		current = current->next;
+		free(key);
+		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
 	}
+	ft_setenv(env, key, value, data);
+	free(key);
+	free(value);
 }
 
 t_env	*init_env(char **envp, t_data *data)
 {
 	t_env	*env;
 	int		i;
-	char	*key;
-	char	*value;
-	char	*equal_sign;
 
 	env = malloc(sizeof(t_env));
 	if (!env)
-		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
+		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
 	env->head = NULL;
 	env->next = NULL;
 	i = 0;
 	while (envp[i])
 	{
-		equal_sign = strchr(envp[i], '=');
-		if (equal_sign)
-		{
-			key = ft_substr(envp[i], 0, equal_sign - envp[i]);
-			if (!key)
-			{
-				free(env);
-				free_all_and_exit_perror(data,
-					"Error\n Malloc allocation failed\n");
-			}
-			value = ft_strdup(equal_sign + 1);
-			if (!value)
-			{
-				free(env);
-				free(key);
-				free_all_and_exit_perror(data,
-					"Error\n Malloc allocation failed\n");
-			}
-			ft_setenv(env, key, value, data);
-			free(key);
-			free(value);
-		}
+		process_env_entry(env, envp[i], data);
 		i++;
 	}
 	return (env);
-}
-
-void	free_env(t_env *env)
-{
-	t_env_var	*current;
-	t_env_var	*next;
-
-	if (!env)
-		return ;
-	current = env->head;
-	while (current)
-	{
-		next = current->next;
-		if (current->key)
-			free(current->key);
-		if (current->value)
-			free(current->value);
-		free(current);
-		current = next;
-	}
-	free(env);
 }
