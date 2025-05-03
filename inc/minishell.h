@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 01:06:12 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 02:16:32 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,9 @@ t_ast_node				*handle_redirections(t_data *data, t_token **tokens,
 void					fill_command_args(t_data *data, t_token **tokens,
 							char **args, int count);
 
-t_env					*init_env(char **envp);
-void					ft_setenv(t_env *env, char *key, char *value);
+t_env					*init_env(char **envp, t_data *data);
+void					ft_setenv(t_env *env, char *key,
+							char *value, t_data *data);
 void					ft_unsetenv(t_env *env, char *key);
 int						ft_unset(char **args, t_env *env);
 int						execute_ast(t_ast_node *node, t_data *data);
@@ -155,7 +156,7 @@ int						exec_pipe(t_ast_node *node, t_data *data);
 void					exec_pipe_child(int pipefd[2], t_ast_node *node,
 							t_data *data, int fd);
 int						is_builtin(char *cmd);
-int						exec_builtin(char **args, t_env *env);
+int						exec_builtin(char **args, t_env *env, t_data *data);
 void					ft_tilde(void);
 void					ft_cd_oldpwd(void);
 int						ft_cd(char **args);

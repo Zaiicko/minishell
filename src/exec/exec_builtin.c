@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:31:22 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/02 16:19:08 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 02:13:00 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_cd(char **args)
 	ft_cd(args);
 }
 
-static int	exec_builtin_cd_export_unset(char **args, t_env *env)
+static int	exec_builtin_cd_export_unset(char **args, t_env *env, t_data *data)
 {
 	char	*equal;
 
@@ -39,7 +39,7 @@ static int	exec_builtin_cd_export_unset(char **args, t_env *env)
 		if (equal)
 		{
 			*equal = '\0';
-			ft_setenv(env, args[1], equal + 1);
+			ft_setenv(env, args[1], equal + 1, data);
 		}
 	}
 	else if (!strcmp(args[0], "unset") && args[1])
@@ -49,7 +49,7 @@ static int	exec_builtin_cd_export_unset(char **args, t_env *env)
 	return (1);
 }
 
-int	exec_builtin(char **args, t_env *env)
+int	exec_builtin(char **args, t_env *env, t_data *data)
 {
 	if (!args || !args[0])
 		return (0);
@@ -73,7 +73,7 @@ int	exec_builtin(char **args, t_env *env)
 		return (handle_exit(args));
 	}
 	else
-		return (exec_builtin_cd_export_unset(args, env));
+		return (exec_builtin_cd_export_unset(args, env, data));
 }
 int	handle_exit(char **args)
 {

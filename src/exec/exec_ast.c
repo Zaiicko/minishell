@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:21:58 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/02 18:44:00 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 02:09:50 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	exec_command(t_ast_node *node, t_data *data)
 	if (!node->args || !node->args[0] || node->args[0][0] == '\0')
 		return (g_exit_status = 0);
 	if (is_builtin(node->args[0]))
-		return (exec_builtin(node->args, data->env));
+		return (exec_builtin(node->args, data->env, data));
 	pid = fork();
 	if (pid == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:31:30 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 01:05:47 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 02:16:14 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_env(t_env *env)
 	}
 }
 
-void	ft_setenv(t_env *env, char *key, char *value)
+void	ft_setenv(t_env *env, char *key, char *value, t_data *data)
 {
 	t_env_var	*current;
 	t_env_var	*new_var;
@@ -43,6 +43,9 @@ void	ft_setenv(t_env *env, char *key, char *value)
 		{
 			free(current->value);
 			current->value = strdup(value);
+			if (!current->value)
+				free_all_and_exit_perror(data,
+					"Error\n Malloc allocation failed\n");
 			return ;
 		}
 		current = current->next;
@@ -85,7 +88,7 @@ void	ft_unsetenv(t_env *env, char *key)
 	}
 }
 
-t_env	*init_env(char **envp)
+t_env	*init_env(char **envp, t_data *data)
 {
 	t_env	*env;
 	int		i;
@@ -106,7 +109,7 @@ t_env	*init_env(char **envp)
 		{
 			key = ft_substr(envp[i], 0, equal_sign - envp[i]);
 			value = ft_strdup(equal_sign + 1);
-			ft_setenv(env, key, value);
+			ft_setenv(env, key, value, data);
 			free(key);
 			free(value);
 		}
