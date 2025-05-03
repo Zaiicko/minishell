@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:31:22 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 02:13:00 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:48:24 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,13 @@ int	is_builtin(char *cmd)
 			"unset") || !strcmp(cmd, "exit"));
 }
 
-void	handle_cd(char **args)
-{
-	ft_cd(args);
-}
-
 static int	exec_builtin_cd_export_unset(char **args, t_env *env, t_data *data)
 {
 	char	*equal;
 
 	if (!strcmp(args[0], "cd"))
 	{
-		ft_cd(args);
+		ft_cd(args, env, data);
 		return (1);
 	}
 	else if (!strcmp(args[0], "export") && args[1])
@@ -74,32 +69,4 @@ int	exec_builtin(char **args, t_env *env, t_data *data)
 	}
 	else
 		return (exec_builtin_cd_export_unset(args, env, data));
-}
-int	handle_exit(char **args)
-{
-	int exit_code = g_exit_status;
-
-	printf("exit\n");
-
-	if (args[1])
-	{
-		char *endptr;
-		long code = strtol(args[1], &endptr, 10);
-
-		if (*endptr != '\0')
-		{
-			ft_putstr_error("minishell: exit: ", args[1], ": numeric argument required");
-			exit(255);
-		}
-		else if (args[2])
-		{
-			ft_putstr_error("minishell: exit: too many arguments", NULL, NULL);
-			return (1);
-		}
-		else
-		{
-			exit_code = code % 256;
-		}
-	}
-	exit(exit_code);
 }

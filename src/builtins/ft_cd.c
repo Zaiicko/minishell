@@ -6,137 +6,140 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/02 16:36:50 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 17:48:06 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void update_pwd_vars(char *oldpwd)
+static void	update_pwd_vars(char *oldpwd, t_env *env, t_data *data)
 {
-    char *newpwd;
+	char	*newpwd;
 
-    newpwd = getcwd(NULL, 0);
-    if (newpwd)
-    {
-        setenv("OLDPWD", oldpwd, 1);
-        setenv("PWD", newpwd, 1);
-        free(newpwd);
-        g_exit_status = 0;
-    }
-    else
-    {
-        perror("getcwd");
-        g_exit_status = 1;
-    }
+	newpwd = getcwd(NULL, 0);
+	if (newpwd)
+	{
+		ft_setenv(env, "OLDPWD", oldpwd, data);
+		ft_setenv(env, "PWD", newpwd, data);
+		free(newpwd);
+		g_exit_status = 0;
+	}
+	else
+	{
+		perror("getcwd");
+		g_exit_status = 1;
+	}
 }
 
-void ft_tilde(void)
+void	ft_tilde(t_env *env, t_data *data)
 {
-    char *home;
+	char *home;
+	char *oldpwd;
 
-    home = getenv("HOME");
-    if (home)
-    {
-        char *oldpwd = getcwd(NULL, 0);
-        if (chdir(home) == -1)
-        {
-            ft_putstr_error("minishell: cd: ", home, ": ");
-            ft_putstr_error(strerror(errno), NULL, NULL);
-            g_exit_status = 1;
-        }
-        else
-        {
-            update_pwd_vars(oldpwd);
-        }
-        free(oldpwd);
-    }
-    else
-    {
-        ft_putstr_error("minishell: cd: HOME not set", NULL, NULL);
-        g_exit_status = 1;
-    }
+	home = get_env_value(env, "HOME");
+		// Utiliser votre fonction au lieu de getenv
+	if (!home)
+	{
+		ft_putstr_error("minishell: cd: ", "HOME not set", NULL);
+		g_exit_status = 1;
+		return ;
+	}
+	oldpwd = getcwd(NULL, 0);
+	if (chdir(home) == -1)
+	{
+		ft_putstr_error("minishell: cd: ", home, ": ");
+		ft_putstr_error(strerror(errno), NULL, NULL);
+		g_exit_status = 1;
+		free(oldpwd);
+	}
+	else
+	{
+		update_pwd_vars(oldpwd, env, data); // Passer les 3 paramètres
+		free(oldpwd);
+	}
 }
 
-void ft_cd_oldpwd(void)
+// 2. Corriger la définition de ft_cd_oldpwd
+void	ft_cd_oldpwd(t_env *env, t_data *data)
 {
-    char *oldpwd;
+	char	*current;
+	char	*oldpwd;
 
-    oldpwd = getenv("OLDPWD");
-    if (oldpwd)
-    {
-        char *current = getcwd(NULL, 0);
-        if (chdir(oldpwd) == -1)
-        {
-            ft_putstr_error("minishell: cd: ", oldpwd, ": ");
-            ft_putstr_error(strerror(errno), NULL, NULL);
-            g_exit_status = 1;
-        }
-        else
-        {
-            printf("%s\n", oldpwd);
-            update_pwd_vars(current);
-        }
-        free(current);
-    }
-    else
-    {
-        ft_putstr_error("minishell: cd: OLDPWD not set", NULL, NULL);
-        g_exit_status = 1;
-    }
+	oldpwd = get_env_value(env, "OLDPWD"); // Utiliser votre fonction
+	if (!oldpwd)
+	{
+		ft_putstr_error("minishell: cd: ", "OLDPWD not set", NULL);
+		g_exit_status = 1;
+		return ;
+	}
+	current = getcwd(NULL, 0);
+	if (chdir(oldpwd) == -1)
+	{
+		ft_putstr_error("minishell: cd: ", oldpwd, ": ");
+		ft_putstr_error(strerror(errno), NULL, NULL);
+		g_exit_status = 1;
+		free(current);
+	}
+	else
+	{
+		update_pwd_vars(current, env, data); // Passer les 3 paramètres
+		free(current);
+		printf("%s\n", oldpwd);
+	}
 }
 
-int ft_cd(char **args)
+// 3. Corriger la définition de ft_cd
+int	ft_cd(char **args, t_env *env, t_data *data)
 {
-    char *path;
-    char *oldpwd;
+	char	*path;
+	char	*oldpwd;
 
 	g_exit_status = 0;
-    if (!args[1])
-    {
-        ft_tilde();
-        return (g_exit_status);
-    }
-    path = args[1];
-    if (ft_strncmp(path, "~", 1) == 0)
-    {
-        ft_tilde();
-        return (g_exit_status);
-    }
-    else if (ft_strncmp(path, "-", 1) == 0)
-    {
-        ft_cd_oldpwd();
-        return (g_exit_status);
-    }
-    else if (ft_strncmp(path, "/", 1) == 0 || ft_strncmp(path, "/", 1) == 0)
-    {
-        oldpwd = getcwd(NULL, 0);
-        if (chdir(path) == -1)
-        {
-            ft_putstr_error("minishell: cd: ", path, ": ");
-            ft_putstr_error(strerror(errno), NULL, NULL);
-            g_exit_status = 1;
-            free(oldpwd);
-        }
-        else
-        {
-            update_pwd_vars(oldpwd);
-            free(oldpwd);
-        }
-        return (g_exit_status);
-    }
-    oldpwd = getcwd(NULL, 0);
-    if (chdir(path) == -1)
-    {
-        ft_putstr_error("minishell: cd: ", path, ": ");
-        ft_putstr_error(strerror(errno), NULL, NULL);
-        g_exit_status = 1;
-        free(oldpwd);
-    }
-    else
-    {
-        update_pwd_vars(oldpwd);
-        free(oldpwd);
-    }
-    return (g_exit_status);
+	if (!args[1])
+	{
+		ft_tilde(env, data); // Passer les paramètres
+		return (g_exit_status);
+	}
+	path = args[1];
+	if (ft_strncmp(path, "~", 1) == 0)
+	{
+		ft_tilde(env, data); // Passer les paramètres
+		return (g_exit_status);
+	}
+	else if (ft_strncmp(path, "-", 1) == 0)
+	{
+		ft_cd_oldpwd(env, data); // Passer les paramètres
+		return (g_exit_status);
+	}
+	else if (ft_strncmp(path, "/", 1) == 0)
+	{
+		oldpwd = getcwd(NULL, 0);
+		if (chdir(path) == -1)
+		{
+			ft_putstr_error("minishell: cd: ", path, ": ");
+			ft_putstr_error(strerror(errno), NULL, NULL);
+			g_exit_status = 1;
+			free(oldpwd);
+		}
+		else
+		{
+			update_pwd_vars(oldpwd, env, data); // Passer les 3 paramètres
+			free(oldpwd);
+		}
+		return (g_exit_status);
+	}
+	oldpwd = getcwd(NULL, 0);
+	if (chdir(path) == -1)
+	{
+		ft_putstr_error("minishell: cd: ", path, ": ");
+		ft_putstr_error(strerror(errno), NULL, NULL);
+		g_exit_status = 1;
+		free(oldpwd);
+	}
+	else
+	{
+		update_pwd_vars(oldpwd, env, data); // Passer les 3 paramètres
+		free(oldpwd);
+	}
+	return (g_exit_status);
 }
