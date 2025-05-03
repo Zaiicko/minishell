@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:31:22 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 17:48:24 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:34:06 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	exec_builtin(char **args, t_env *env, t_data *data)
 	}
 	else if (!strcmp(args[0], "exit"))
 	{
-		return (handle_exit(args));
+		return (handle_exit(args, data));
 	}
 	else
 		return (exec_builtin_cd_export_unset(args, env, data));

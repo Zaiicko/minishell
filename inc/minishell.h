@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 18:34:22 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:38:29 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,10 +168,9 @@ void					ft_env(t_env *env);
 void					ft_export(t_env *env);
 void					ft_pwd(void);
 void					ft_oldpwd(void);
-int						handle_exit(char **args);
 int						exec_pipe(t_ast_node *node, t_data *data);
 int						exec_redirection(t_ast_node *node, t_data *data);
-int						handle_exit(char **args);
+int						handle_exit(char **args, t_data *data);
 void					expand_ast(t_data *data, t_ast_node *node);
 void					process_quotes_in_ast(t_data *data, t_ast_node *node);
 int						calculate_expanded_length(t_data *data, char *str);
