@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:31:22 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 15:10:01 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:57:23 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ int	handle_exit(char **args, t_data *data)
 			exit_code = code % 256;
 		}
 	}
+	free_all(data);
 	exit(exit_code);
 }
