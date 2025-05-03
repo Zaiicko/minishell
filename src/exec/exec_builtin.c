@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:31:22 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 02:13:00 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:10:01 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	exec_builtin(char **args, t_env *env, t_data *data)
 	}
 	else if (!strcmp(args[0], "exit"))
 	{
-		return (handle_exit(args));
+		return (handle_exit(args, data));
 	}
 	else
 		return (exec_builtin_cd_export_unset(args, env, data));
 }
-int	handle_exit(char **args)
+int	handle_exit(char **args, t_data *data)
 {
 	int exit_code = g_exit_status;
 
@@ -89,6 +89,7 @@ int	handle_exit(char **args)
 		if (*endptr != '\0')
 		{
 			ft_putstr_error("minishell: exit: ", args[1], ": numeric argument required");
+			free_all(data);
 			exit(255);
 		}
 		else if (args[2])

@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 04:03:18 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 15:09:23 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ int						exec_pipe(t_ast_node *node, t_data *data);
 void					exec_pipe_child(int pipefd[2], t_ast_node *node,
 							t_data *data, int fd);
 int						exec_redirection(t_ast_node *node, t_data *data);
-int						handle_exit(char **args);
+int						handle_exit(char **args, t_data *data);
 void					expand_ast(t_data *data, t_ast_node *node);
 void					process_quotes_in_ast(t_data *data, t_ast_node *node);
 int						calculate_expanded_length(t_data *data, char *str);
