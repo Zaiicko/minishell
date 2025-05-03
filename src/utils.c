@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 22:37:38 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 16:16:06 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:16:59 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,16 @@ void	ft_putstr_error(char *s1, char *s2, char *s3)
 	if (s3)
 		write(STDERR_FILENO, s3, ft_strlen(s3));
 	write(STDERR_FILENO, "\n", 1);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	if (!s1 || !s2)
+		return (0);
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }

@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:20 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 16:23:10 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:14:56 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	unset_one_var(t_env *env, char *key)
 	current = env->head;
 	while (current)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 		{
 			if (current->prev)
 				current->prev->next = current->next;

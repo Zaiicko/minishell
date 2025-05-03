@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 19:02:20 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:17:11 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,5 +194,6 @@ t_token					*collect_redirections(t_data *data, t_token **tokens);
 t_token					*process_redirection_token(t_token *current);
 t_token					*process_token(t_data *data, t_token *current,
 							char **args, int *i);
+int						ft_strcmp(const char *s1, const char *s2);
 
 #endif
