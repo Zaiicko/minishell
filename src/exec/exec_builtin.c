@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:31:22 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 18:34:06 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 19:03:08 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	is_builtin(char *cmd)
 
 static int	exec_builtin_cd_export_unset(char **args, t_env *env, t_data *data)
 {
-	char	*equal;
-
 	if (!strcmp(args[0], "cd"))
 	{
 		ft_cd(args, env, data);
@@ -30,12 +28,12 @@ static int	exec_builtin_cd_export_unset(char **args, t_env *env, t_data *data)
 	}
 	else if (!strcmp(args[0], "export") && args[1])
 	{
-		equal = strchr(args[1], '=');
-		if (equal)
-		{
-			*equal = '\0';
-			ft_setenv(env, args[1], equal + 1, data);
-		}
+		return (ft_export_with_args(env, args, data));
+	}
+	else if (!strcmp(args[0], "export"))
+	{
+		ft_export(env);
+		return (0);
 	}
 	else if (!strcmp(args[0], "unset") && args[1])
 		ft_unset(args, env);

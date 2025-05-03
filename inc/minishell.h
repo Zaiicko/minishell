@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 18:46:01 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:02:20 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ int						handle_absolute_path(char *path, char *oldpwd,
 void					ft_echo(char **arg);
 void					ft_env(t_env *env);
 void					ft_export(t_env *env);
+int						ft_export_with_args(t_env *env, char **args,
+							t_data *data);
 void					ft_pwd(void);
 void					ft_oldpwd(void);
 int						exec_pipe(t_ast_node *node, t_data *data);

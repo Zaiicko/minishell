@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:42:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 18:46:25 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:09:36 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,9 @@ t_token	*collect_redirections(t_data *data, t_token **tokens)
 
 t_token	*process_redirection_token(t_token *current)
 {
-	if (current->next)
-		return (current->next);
-	else
+	if (!current || !current->next)
 		return (NULL);
+	return (current->next->next);
 }
 
 t_token	*process_token(t_data *data, t_token *current, char **args, int *i)
@@ -67,7 +66,8 @@ t_token	*process_token(t_data *data, t_token *current, char **args, int *i)
 	else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT
 		|| current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
 	{
-		return (process_redirection_token(current));
+		if (current->next)
+			return (process_redirection_token(current));
 	}
 	return (NULL);
 }
