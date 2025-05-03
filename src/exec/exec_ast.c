@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 13:21:58 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 02:09:50 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 03:59:48 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	exec_command(t_ast_node *node, t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
+		start_exec_signals();
 		execvp(node->args[0], node->args);
 		if (errno == ENOENT)
 		{
@@ -72,11 +73,19 @@ int	exec_command(t_ast_node *node, t_data *data)
 	}
 	else if (pid > 0)
 	{
+		start_parent_exec_signals();
 		waitpid(pid, &status, 0);
 		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
+			else if (WTERMSIG(status) == SIGQUIT)
+				write(1, "Quit: 3\n", 8);
 			g_exit_status = 128 + WTERMSIG(status);
+		}
 		else
-			g_exit_status = WEXITSTATUS(status);
+    		g_exit_status = WEXITSTATUS(status);
+		start_signals();
 		return (g_exit_status);
 	}
 	else
@@ -107,6 +116,7 @@ int exec_pipe(t_ast_node *node, t_data *data)
     
     if (pid1 == 0)
     {
+		start_exec_signals(); 
         close(pipefd[0]);
         if (dup2(pipefd[1], STDOUT_FILENO) == -1)
         {
@@ -127,6 +137,7 @@ int exec_pipe(t_ast_node *node, t_data *data)
     }
     if (pid2 == 0)
     {
+		start_exec_signals();
         close(pipefd[1]);
         if (dup2(pipefd[0], STDIN_FILENO) == -1)
         {
@@ -138,13 +149,20 @@ int exec_pipe(t_ast_node *node, t_data *data)
     }
     close(pipefd[0]);
     close(pipefd[1]);
+	start_parent_exec_signals();
     waitpid(pid1, &status1, 0);
     waitpid(pid2, &status2, 0);
-    if (WIFSIGNALED(status2))
-        g_exit_status = 128 + WTERMSIG(status2);
-    else
-        g_exit_status = WEXITSTATUS(status2);
-    
+	start_signals();
+	if (WIFSIGNALED(status2))
+	{
+		if (WTERMSIG(status2) == SIGINT)
+			write(1, "\n", 1);
+		else if (WTERMSIG(status2) == SIGQUIT)
+			write(1, "Quit: 3\n", 8);
+		g_exit_status = 128 + WTERMSIG(status2);
+	}
+	else
+    	g_exit_status = WEXITSTATUS(status2);
     return (g_exit_status);
 }
 int exec_redirection(t_ast_node *node, t_data *data)

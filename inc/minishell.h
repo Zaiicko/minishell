@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 02:16:32 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 04:03:18 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,5 +186,7 @@ void					prepare_cmd_for_execution(t_data *data,
 							t_ast_node *node);
 void					ft_putstr_error(char *s1, char *s2, char *s3);
 void					free_env(t_env *env);
+void					start_exec_signals(void);
+void					start_parent_exec_signals(void);
 
 #endif
