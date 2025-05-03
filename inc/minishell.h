@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 17:47:13 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:34:22 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,8 @@ void					fill_command_args(t_data *data, t_token **tokens,
 t_env					*init_env(char **envp, t_data *data);
 void					ft_setenv(t_env *env, char *key, char *value,
 							t_data *data);
-void					ft_unsetenv(t_env *env, char *key);
+void					free_env(t_env *env);
+void					ft_env(t_env *env);
 int						ft_unset(char **args, t_env *env);
 int						execute_ast(t_ast_node *node, t_data *data);
 int						exec_command(t_ast_node *node, t_data *data);
@@ -158,7 +159,10 @@ int						exec_builtin(char **args, t_env *env, t_data *data);
 void					ft_tilde(t_env *env, t_data *data);
 void					ft_cd_oldpwd(t_env *env, t_data *data);
 int						ft_cd(char **args, t_env *env, t_data *data);
-void					handle_cd(char **args);
+int						handle_relative_path(char *path, t_env *env,
+							t_data *data);
+int						handle_absolute_path(char *path, char *oldpwd,
+							t_env *env, t_data *data);
 void					ft_echo(char **arg);
 void					ft_env(t_env *env);
 void					ft_export(t_env *env);
@@ -184,7 +188,5 @@ void					ft_putstr_error(char *s1, char *s2, char *s3);
 void					free_env(t_env *env);
 void					start_exec_signals(void);
 void					start_parent_exec_signals(void);
-int						ft_isquote(char c);
-void					print_ast(t_ast_node *node, int depth);
 
 #endif
