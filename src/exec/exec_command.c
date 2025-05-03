@@ -3,40 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:26:07 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 16:33:00 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:12:42 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	handle_command_error(char *cmd, int error_code)
+static void	handle_command_error(char *cmd, int error_code, t_data *data)
 {
 	if (error_code == ENOENT)
 	{
 		ft_putstr_error("minishell: ", cmd, ": command not found");
+		free_all(data);
 		exit(127);
 	}
 	else if (error_code == EACCES)
 	{
 		ft_putstr_error("minishell: ", cmd, ": Permission denied");
+		free_all(data);
 		exit(126);
 	}
 	else
 	{
 		ft_putstr_error("minishell: ", cmd, ": ");
 		ft_putstr_error(strerror(error_code), NULL, NULL);
+		free_all(data);
 		exit(1);
 	}
 }
 
-static void	exec_command_child(t_ast_node *node)
+static void	exec_command_child(t_ast_node *node, t_data *data)
 {
 	start_exec_signals();
 	execvp(node->args[0], node->args);
-	handle_command_error(node->args[0], errno);
+	handle_command_error(node->args[0], errno, data);
 }
 
 static int	handle_command_status(int status)
@@ -65,7 +68,7 @@ int	exec_command(t_ast_node *node, t_data *data)
 		return (exec_builtin(node->args, data->env, data));
 	pid = fork();
 	if (pid == 0)
-		exec_command_child(node);
+		exec_command_child(node, data);
 	else if (pid > 0)
 	{
 		start_parent_exec_signals();
