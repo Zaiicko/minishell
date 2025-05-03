@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:06:12 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 02:32:44 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 14:16:33 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	fill_stripped_result(char *str, char *result)
 	quote_type = 0;
 	while (str[i])
 	{
-		if (ft_isquote(str[i]))
+		if (str[i] == '\'' || str[i] == '\"')
 		{
 			if (quote_type == 0)
 				quote_type = str[i];

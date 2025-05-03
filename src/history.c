@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 00:15:17 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/21 23:53:55 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:57:52 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,17 @@ void	load_history(void)
 	int		fd;
 	char	*line;
 	int		len;
+	char	*home_dir;
+	char	*history_path;
 
-	fd = open(".readline_history", O_RDONLY);
+	home_dir = getenv("HOME");
+	if (!home_dir)
+		return ;
+	history_path = ft_strjoin(home_dir, "/.minishell_history");
+	if (!history_path)
+		exit_perror("Error\n Memory allocation failed\n");
+	fd = open(history_path, O_RDONLY);
+	free(history_path);
 	if (fd < 0)
 	{
 		if (errno != ENOENT)
@@ -42,11 +51,20 @@ void	load_history(void)
 
 void	save_history(t_data *data)
 {
-	int	fd;
+	int		fd;
+	char	*home_dir;
+	char	*history_path;
 
 	if (!data->input || !data->input[0])
 		return ;
-	fd = open(".readline_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	home_dir = getenv("HOME");
+	if (!home_dir)
+		return ;
+	history_path = ft_strjoin(home_dir, "/.minishell_history");
+	if (!history_path)
+		free_all_and_exit_perror(data, "Error\n Memory allocation failed\n");
+	fd = open(history_path, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	free(history_path);
 	if (fd < 0)
 		free_all_and_exit_perror(data, "Error\n Can't open history file\n");
 	write(fd, data->input, strlen(data->input));

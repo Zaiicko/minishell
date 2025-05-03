@@ -6,42 +6,44 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/02 18:46:09 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 16:19:29 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void fill_command_args(t_data *data, t_token **tokens, char **args, int count)
+void	fill_command_args(t_data *data, t_token **tokens, char **args,
+		int count)
 {
-    int     i;
-    t_token *current;
+	int		i;
+	t_token	*current;
 
-    i = 0;
-    current = *tokens;
-    while (current && i < count)
-    {
-        if (current->type == TOKEN_WORD)
-        {
-            args[i] = ft_strdup(current->value);
-            if (!args[i])
-                free_all_and_exit_perror(data, "Error\n Malloc failed\n");
-            i++;
-        }
-        else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT ||
-                current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
-        {
-            if (current->next)
-                current = current->next;
-            else
-                break;
-        }
-        else
-            break;
-        current = current->next;
-    }
-    args[i] = NULL;
-    *tokens = current;
+	i = 0;
+	current = *tokens;
+	while (current && i < count)
+	{
+		if (current->type == TOKEN_WORD)
+		{
+			args[i] = ft_strdup(current->value);
+			if (!args[i])
+				free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+			i++;
+		}
+		else if (current->type == TOKEN_REDIR_IN
+			|| current->type == TOKEN_REDIR_OUT || current->type == TOKEN_APPEND
+			|| current->type == TOKEN_HEREDOC)
+		{
+			if (current->next)
+				current = current->next;
+			else
+				break ;
+		}
+		else
+			break ;
+		current = current->next;
+	}
+	args[i] = NULL;
+	*tokens = current;
 }
 
 t_ast_node	*parse_command(t_data *data, t_token **tokens)
@@ -60,7 +62,7 @@ t_ast_node	*parse_command(t_data *data, t_token **tokens)
 	cmd_node = new_command_node(args);
 	if (!cmd_node)
 	{
-		ft_free_tab(args),
+		ft_free_tab(args);
 		free_all_and_exit_perror(data, "Error\n Node creation failed\n");
 	}
 	return (handle_redirections(data, tokens, cmd_node));
