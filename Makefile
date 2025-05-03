@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
+#    By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/05/03 04:09:12 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/05/03 17:17:09 by nicleena         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,31 +24,36 @@ OBJ_DIR = obj
 RM = rm -rf
 
 SRCS =	main.c\
-	input_handler.c\
-	signals/signal_handler.c\
-	signals/signal_handler2.c\
-	utils.c\
-	parser/ast.c\
-	lexer/lexer.c\
-	lexer/lexer_utils.c\
-	lexer/lexer_utils2.c\
-	parser/parser.c\
-	parser/parser_utils.c\
-	init_data.c\
-	history.c\
-	builtins/ft_env.c\
-	builtins/ft_export.c\
-	builtins/ft_unset.c\
-	builtins/ft_cd.c\
-	builtins/ft_pwd.c\
-	builtins/ft_echo.c\
-	exec/exec_ast.c\
-	exec/exec_builtin.c\
-	expander/expander.c\
-	expander/expander_utils.c\
-	expander/expander_var.c\
-	expander/expander_quotes.c\
-	expander/expander_utils2.c\
+    input_handler.c\
+    signals/signal_handler.c\
+    signals/signal_handler2.c\
+    utils.c\
+    parser/ast.c\
+    lexer/lexer.c\
+    lexer/lexer_utils.c\
+    lexer/lexer_utils2.c\
+    parser/parser.c\
+    parser/parser_utils.c\
+    init_data.c\
+    history.c\
+    builtins/ft_env.c\
+    builtins/ft_export.c\
+    builtins/ft_unset.c\
+    builtins/ft_cd.c\
+    builtins/ft_pwd.c\
+    builtins/ft_echo.c\
+	builtins/ft_exit.c\
+    exec/exec_ast.c\
+    exec/exec_builtin.c\
+    expander/expander.c\
+    expander/expander_utils.c\
+    expander/expander_var.c\
+    expander/expander_quotes.c\
+    expander/expander_utils2.c\
+    exec/exec_command.c\
+    exec/exec_pipe.c\
+    exec/exec_redirection.c
+	
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 

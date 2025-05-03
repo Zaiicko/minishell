@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 17:48:06 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 17:57:12 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ static void	update_pwd_vars(char *oldpwd, t_env *env, t_data *data)
 
 void	ft_tilde(t_env *env, t_data *data)
 {
-	char *home;
-	char *oldpwd;
+	char	*home;
+	char	*oldpwd;
 
 	home = get_env_value(env, "HOME");
-		// Utiliser votre fonction au lieu de getenv
 	if (!home)
 	{
 		ft_putstr_error("minishell: cd: ", "HOME not set", NULL);
@@ -54,18 +53,17 @@ void	ft_tilde(t_env *env, t_data *data)
 	}
 	else
 	{
-		update_pwd_vars(oldpwd, env, data); // Passer les 3 paramètres
+		update_pwd_vars(oldpwd, env, data);
 		free(oldpwd);
 	}
 }
 
-// 2. Corriger la définition de ft_cd_oldpwd
 void	ft_cd_oldpwd(t_env *env, t_data *data)
 {
 	char	*current;
 	char	*oldpwd;
 
-	oldpwd = get_env_value(env, "OLDPWD"); // Utiliser votre fonction
+	oldpwd = get_env_value(env, "OLDPWD");
 	if (!oldpwd)
 	{
 		ft_putstr_error("minishell: cd: ", "OLDPWD not set", NULL);
@@ -82,7 +80,7 @@ void	ft_cd_oldpwd(t_env *env, t_data *data)
 	}
 	else
 	{
-		update_pwd_vars(current, env, data); // Passer les 3 paramètres
+		update_pwd_vars(current, env, data);
 		free(current);
 		printf("%s\n", oldpwd);
 	}
@@ -97,18 +95,18 @@ int	ft_cd(char **args, t_env *env, t_data *data)
 	g_exit_status = 0;
 	if (!args[1])
 	{
-		ft_tilde(env, data); // Passer les paramètres
+		ft_tilde(env, data);
 		return (g_exit_status);
 	}
 	path = args[1];
 	if (ft_strncmp(path, "~", 1) == 0)
 	{
-		ft_tilde(env, data); // Passer les paramètres
+		ft_tilde(env, data);
 		return (g_exit_status);
 	}
 	else if (ft_strncmp(path, "-", 1) == 0)
 	{
-		ft_cd_oldpwd(env, data); // Passer les paramètres
+		ft_cd_oldpwd(env, data);
 		return (g_exit_status);
 	}
 	else if (ft_strncmp(path, "/", 1) == 0)
@@ -123,7 +121,7 @@ int	ft_cd(char **args, t_env *env, t_data *data)
 		}
 		else
 		{
-			update_pwd_vars(oldpwd, env, data); // Passer les 3 paramètres
+			update_pwd_vars(oldpwd, env, data);
 			free(oldpwd);
 		}
 		return (g_exit_status);
@@ -138,7 +136,7 @@ int	ft_cd(char **args, t_env *env, t_data *data)
 	}
 	else
 	{
-		update_pwd_vars(oldpwd, env, data); // Passer les 3 paramètres
+		update_pwd_vars(oldpwd, env, data);
 		free(oldpwd);
 	}
 	return (g_exit_status);

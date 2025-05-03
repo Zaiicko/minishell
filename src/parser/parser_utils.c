@@ -6,34 +6,35 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/02 18:45:59 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/03 16:12:42 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int count_command_args(t_token *tokens)
+int	count_command_args(t_token *tokens)
 {
-    int     count;
-    t_token *current;
+	int		count;
+	t_token	*current;
 
-    count = 0;
-    current = tokens;
-    while (current)
-    {
-        if (current->type == TOKEN_WORD)
-            count++;
-        else if (current->type == TOKEN_REDIR_IN || current->type == TOKEN_REDIR_OUT ||
-                current->type == TOKEN_APPEND || current->type == TOKEN_HEREDOC)
-        {
-            if (current->next)
-                current = current->next;
-        }
-        else
-            break; 
-        current = current->next;
-    }
-    return (count);
+	count = 0;
+	current = tokens;
+	while (current)
+	{
+		if (current->type == TOKEN_WORD)
+			count++;
+		else if (current->type == TOKEN_REDIR_IN
+			|| current->type == TOKEN_REDIR_OUT || current->type == TOKEN_APPEND
+			|| current->type == TOKEN_HEREDOC)
+		{
+			if (current->next)
+				current = current->next;
+		}
+		else
+			break ;
+		current = current->next;
+	}
+	return (count);
 }
 
 t_node_type	convert_type(t_token_type token_type)
@@ -74,32 +75,52 @@ void	free_ast(t_ast_node *root)
 	free(root);
 }
 
-t_ast_node	*handle_redirections(t_data *data,
-	t_token **tokens, t_ast_node *cmd)
+t_ast_node	*handle_redirections(t_data *data, t_token **tokens,
+		t_ast_node *cmd)
 {
+	t_token		*current;
 	t_ast_node	*result;
 	t_node_type	type;
+	t_token		*redirs;
+	t_token		*temp;
 
 	result = cmd;
-	while (*tokens && ((*tokens)->type == TOKEN_REDIR_IN
-			|| (*tokens)->type == TOKEN_REDIR_OUT
-			|| (*tokens)->type == TOKEN_APPEND
-			|| (*tokens)->type == TOKEN_HEREDOC))
+	current = *tokens;
+	redirs = NULL;
+	while (current && (current->type == TOKEN_REDIR_IN
+			|| current->type == TOKEN_REDIR_OUT || current->type == TOKEN_APPEND
+			|| current->type == TOKEN_HEREDOC))
 	{
-		type = convert_type((*tokens)->type);
-		*tokens = (*tokens)->next;
-		if (!*tokens || (*tokens)->type != TOKEN_WORD)
-		{
-			free_ast(result);
-			free_all_and_exit_perror(data, "Error\n Missing file name\n");
-		}
-		result = new_redir_node(type, result, (*tokens)->value);
-		if (!result)
-		{
-			free_ast(cmd);
-			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
-		}
-		*tokens = (*tokens)->next;
+		temp = malloc(sizeof(t_token));
+		if (!temp)
+			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		temp->type = current->type;
+		temp->next = redirs;
+		redirs = temp;
+		current = current->next;
+		if (!current || current->type != TOKEN_WORD)
+			free_all_and_exit_perror(data, "Error\n Missing filename\n");
+		temp->value = ft_strdup(current->value);
+		if (!temp->value)
+			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		current = current->next;
 	}
+	temp = redirs;
+	while (temp)
+	{
+		type = convert_type(temp->type);
+		result = new_redir_node(type, result, temp->value);
+		if (!result)
+			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+		temp = temp->next;
+	}
+	temp = redirs;
+	while (temp)
+	{
+		redirs = temp->next;
+		free(temp);
+		temp = redirs;
+	}
+	*tokens = current;
 	return (result);
 }
