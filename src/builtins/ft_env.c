@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:31:30 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 03:06:12 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/03 03:08:43 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,16 @@ void	ft_setenv(t_env *env, char *key, char *value, t_data *data)
 			"Error\n Malloc allocation failed\n");
 	}
 	new_var->value = strdup(value);
+	if (!new_var->value)
+	{
+		free(new_var->key);
+		free(value);
+		free(key);
+		free(env);
+		free(new_var);
+		free_all_and_exit_perror(data,
+			"Error\n Malloc allocation failed\n");
+	}
 	new_var->next = env->head;
 	new_var->prev = NULL;
 	if (env->head)
