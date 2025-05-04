@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 00:04:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/05 01:27:59 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/05 01:50:07 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	**env_to_array(t_env *env)
 		count++;
 		current = current->next;
 	}
-	env_array = (char *)malloc(sizeof(char *) * (count + 1));
+	env_array = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!env_array)
 		return (NULL);
 	i = 0;
