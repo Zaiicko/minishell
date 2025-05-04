@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+         #
+#    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/05/03 18:51:05 by nicleena         ###   ########.fr        #
+#    Updated: 2025/05/05 00:42:38 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,8 @@ SRCS =	main.c\
     expander/expander_utils2.c\
     exec/exec_command.c\
     exec/exec_pipe.c\
-    exec/exec_redirection.c
+    exec/exec_redirection.c\
+	exec/exec_command_child.c\
 	
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))

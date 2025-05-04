@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 19:17:11 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/05 00:56:56 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,5 +195,8 @@ t_token					*process_redirection_token(t_token *current);
 t_token					*process_token(t_data *data, t_token *current,
 							char **args, int *i);
 int						ft_strcmp(const char *s1, const char *s2);
+void					exec_command_child(t_ast_node *node, t_data *data);
+void					handle_command_error(char *cmd,
+							int error_code, t_data *data);
 
 #endif

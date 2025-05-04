@@ -6,13 +6,13 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:26:07 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 19:12:42 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/05 00:41:41 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	handle_command_error(char *cmd, int error_code, t_data *data)
+void	handle_command_error(char *cmd, int error_code, t_data *data)
 {
 	if (error_code == ENOENT)
 	{
@@ -33,13 +33,6 @@ static void	handle_command_error(char *cmd, int error_code, t_data *data)
 		free_all(data);
 		exit(1);
 	}
-}
-
-static void	exec_command_child(t_ast_node *node, t_data *data)
-{
-	start_exec_signals();
-	execvp(node->args[0], node->args);
-	handle_command_error(node->args[0], errno, data);
 }
 
 static int	handle_command_status(int status)

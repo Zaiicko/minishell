@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:31:30 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 19:15:20 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/05 01:22:01 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ static t_env_var	*create_env_var(char *key, char *value, t_data *data)
 
 static void	update_existing_env(t_env_var *current, char *value, t_data *data)
 {
+	if (!value)
+		return ;
 	free(current->value);
-	current->value = strdup(value);
+	current->value = ft_strdup(value);
 	if (!current->value)
 		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
 }
