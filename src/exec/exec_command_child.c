@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 00:04:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/05 21:09:42 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 00:07:02 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,17 @@ void	exec_command_child(t_ast_node *node, t_data *data)
 	start_exec_signals();
 	cmd_dup = ft_strdup(node->args[0]);
 	if (!cmd_dup)
+	{
+		free_all(data);
 		exit(1);
-
+	}
 	cmd_path = find_command_path(node->args[0], data->env);
 	if (!cmd_path)
 		handle_command_error(cmd_dup, ENOMEM, data);
-
 	env_array = env_to_array(data->env);
 	if (!env_array)
 	{
 		free(cmd_path);
-		free(cmd_dup);
 		handle_command_error(cmd_dup, ENOMEM, data);
 	}
 
@@ -133,7 +133,6 @@ void	exec_command_child(t_ast_node *node, t_data *data)
 	if (!args_copy)
 	{
 		free(cmd_path);
-		free(cmd_dup);
 		ft_free_tab(env_array);
 		handle_command_error(cmd_dup, ENOMEM, data);
 	}
