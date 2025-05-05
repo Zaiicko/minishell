@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 00:04:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 00:07:02 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 00:43:41 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,20 +88,41 @@ static char	*find_command_path(char *cmd, t_env *env)
 	char	*path;
 	char	**paths;
 	char	*cmd_path;
+	char	*result;
 
 	if (ft_strchr(cmd, '/'))
-		return (ft_strdup(cmd));
+	{
+		result = ft_strdup(cmd);
+		if (!result)
+			return (NULL);
+		return (result);
+	}
 	path = get_env_value(env, "PATH");
 	if (!path)
-		return (ft_strdup(cmd));
+	{
+		result = ft_strdup(cmd);
+		if (!result)
+			return (NULL);
+		return (result);
+	}
 	paths = ft_split(path, ':');
 	free(path);
 	if (!paths)
-		return (ft_strdup(cmd));
+	{
+		result = ft_strdup(cmd);
+		if (!result)
+			return (NULL);
+		return (result);
+	}
 	cmd_path = search_in_paths(paths, cmd);
 	ft_free_tab(paths);
 	if (!cmd_path)
-		return (ft_strdup(cmd));
+	{
+		result = ft_strdup(cmd);
+		if (!result)
+			return (NULL);
+		return (result);
+	}
 	return (cmd_path);
 }
 
