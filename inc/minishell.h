@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/05 14:43:44 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/05 21:04:57 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,5 +199,6 @@ void					exec_command_child(t_ast_node *node, t_data *data);
 void					handle_command_error(char *cmd, int error_code,
 							t_data *data);
 char					*handle_heredoc(char *delimiter, t_data *data);
+char					**ft_tabdup(char **tab);
 
 #endif

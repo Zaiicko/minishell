@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 00:04:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/05 01:50:07 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/05 21:09:42 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,19 +109,37 @@ void	exec_command_child(t_ast_node *node, t_data *data)
 {
 	char	*cmd_path;
 	char	**env_array;
+	char	**args_copy;
+	char	*cmd_dup;
 
 	start_exec_signals();
+	cmd_dup = ft_strdup(node->args[0]);
+	if (!cmd_dup)
+		exit(1);
+
 	cmd_path = find_command_path(node->args[0], data->env);
 	if (!cmd_path)
-		handle_command_error(node->args[0], ENOMEM, data);
+		handle_command_error(cmd_dup, ENOMEM, data);
+
 	env_array = env_to_array(data->env);
 	if (!env_array)
 	{
 		free(cmd_path);
-		handle_command_error(node->args[0], ENOMEM, data);
+		free(cmd_dup);
+		handle_command_error(cmd_dup, ENOMEM, data);
 	}
-	execve(cmd_path, node->args, env_array);
+
+	args_copy = ft_tabdup(node->args);
+	if (!args_copy)
+	{
+		free(cmd_path);
+		free(cmd_dup);
+		ft_free_tab(env_array);
+		handle_command_error(cmd_dup, ENOMEM, data);
+	}
+	execve(cmd_path, args_copy, env_array);
 	free(cmd_path);
 	ft_free_tab(env_array);
-	handle_command_error(node->args[0], errno, data);
+	ft_free_tab(args_copy);
+	handle_command_error(cmd_dup, errno, data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:27:23 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 16:39:13 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:12:55 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static void	exec_pipe_child(int pipefd[2], t_ast_node *node_side, t_data *data,
 		int is_left_side)
 {
+	int exit_code;
+
 	start_exec_signals();
 	if (is_left_side)
 	{
@@ -22,10 +24,13 @@ static void	exec_pipe_child(int pipefd[2], t_ast_node *node_side, t_data *data,
 		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 		{
 			perror("dup2");
+			free_all(data);
 			exit(1);
 		}
 		close(pipefd[1]);
-		exit(execute_ast(node_side, data));
+		exit_code = execute_ast(node_side, data);
+		free_all(data);
+		exit(exit_code);
 	}
 	else
 	{
@@ -33,10 +38,13 @@ static void	exec_pipe_child(int pipefd[2], t_ast_node *node_side, t_data *data,
 		if (dup2(pipefd[0], STDIN_FILENO) == -1)
 		{
 			perror("dup2");
+			free_all(data);
 			exit(1);
 		}
 		close(pipefd[0]);
-		exit(execute_ast(node_side, data));
+		exit_code = execute_ast(node_side, data);
+		free_all(data);
+		exit(exit_code);
 	}
 }
 
