@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:42:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 19:09:36 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:51:15 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ int	is_redirection_token(t_token_type type)
 
 t_token	*collect_redirections(t_data *data, t_token **tokens)
 {
-	t_token	*current;
 	t_token	*redirs;
 	t_token	*temp;
+	t_token	*current;
 
 	redirs = NULL;
 	current = *tokens;
-	while (current && is_redirection_token(current->type))
+	while (current && (current->type == TOKEN_REDIR_IN
+			|| current->type == TOKEN_REDIR_OUT || current->type == TOKEN_APPEND
+			|| current->type == TOKEN_HEREDOC))
 	{
 		temp = malloc(sizeof(t_token));
 		if (!temp)

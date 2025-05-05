@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 18:42:58 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:50:00 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,26 @@ t_ast_node	*handle_redirections(t_data *data, t_token **tokens,
 	t_token		*redirs;
 	t_token		*temp;
 	t_node_type	type;
+	char		*heredoc_file;
 
 	result = cmd;
 	redirs = collect_redirections(data, tokens);
 	temp = redirs;
 	while (temp)
 	{
-		type = convert_type(temp->type);
-		result = new_redir_node(type, result, temp->value);
+		if (temp->type == TOKEN_HEREDOC)
+		{
+			heredoc_file = handle_heredoc(temp->value, data);
+			if (!heredoc_file)
+				free_all_and_exit_perror(data, "Error\n Heredoc failed\n");
+			result = new_redir_node(NODE_HEREDOC, result, heredoc_file);
+			free(heredoc_file);
+		}
+		else
+		{
+			type = convert_type(temp->type);
+			result = new_redir_node(type, result, temp->value);
+		}
 		if (!result)
 			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
 		temp = temp->next;
@@ -98,6 +110,7 @@ t_ast_node	*handle_redirections(t_data *data, t_token **tokens,
 	while (temp)
 	{
 		redirs = temp->next;
+		free(temp->value);
 		free(temp);
 		temp = redirs;
 	}

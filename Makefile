@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
+#    By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/05/05 00:42:38 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/05/05 14:50:32 by nicleena         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRCS =	main.c\
 	builtins/ft_cd_utils.c\
 	builtins/ft_env_utils.c\
 	parser/parser_utils2.c\
+	exec/exec_heredoc.c\
     exec/exec_ast.c\
     exec/exec_builtin.c\
     expander/expander.c\
