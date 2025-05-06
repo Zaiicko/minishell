@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 00:15:17 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 18:31:44 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:12:11 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char	*get_history_path(void)
+static char	*get_history_path(t_data *data)
 {
 	char	*home_dir;
 	char	*history_path;
@@ -22,7 +22,7 @@ static char	*get_history_path(void)
 		return (NULL);
 	history_path = ft_strjoin(home_dir, "/.minishell_history");
 	if (!history_path)
-		exit_perror("Error\n Memory allocation failed\n");
+		free_all_and_exit(data, "Error\n Memory allocation failed\n");
 	return (history_path);
 }
 
@@ -37,13 +37,13 @@ static void	process_history_line(char *line)
 		add_history(line);
 }
 
-void	load_history(void)
+void	load_history(t_data *data)
 {
 	int		fd;
 	char	*line;
 	char	*history_path;
 
-	history_path = get_history_path();
+	history_path = get_history_path(data);
 	if (!history_path)
 		return ;
 	fd = open(history_path, O_RDONLY);
@@ -51,7 +51,7 @@ void	load_history(void)
 	if (fd < 0)
 	{
 		if (errno != ENOENT)
-			exit_perror("Error\n Can't open history file\n");
+			free_all_and_exit(data, "Error\n Can't open history file\n");
 		return ;
 	}
 	while (1)
@@ -72,13 +72,13 @@ void	save_history(t_data *data)
 
 	if (!data->input || !data->input[0])
 		return ;
-	history_path = get_history_path();
+	history_path = get_history_path(data);
 	if (!history_path)
 		return ;
 	fd = open(history_path, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	free(history_path);
 	if (fd < 0)
-		free_all_and_exit_perror(data, "Error\n Can't open history file\n");
+		free_all_and_exit(data, "Error\n Can't open history file\n");
 	write(fd, data->input, strlen(data->input));
 	write(fd, "\n", 1);
 	close(fd);

@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:43:10 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 17:26:56 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:05:09 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*handle_heredoc(char *delimiter, t_data *data)
 
 	temp_file = create_temp_file();
 	if (!temp_file)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		free_all_and_exit(data, "Error\n Malloc failed\n");
 	fd = open(temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
 		return (free(temp_file), NULL);

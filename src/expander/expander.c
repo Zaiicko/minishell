@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:46:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/02 15:02:39 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:05:45 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	handle_variable_expansion(t_data *data, char *str, char *result,
 	if (!var_name)
 	{
 		free(result);
-		free_all_and_exit_perror(data,
+		free_all_and_exit(data,
 			"Error\n Exctract the variable name failed\n");
 	}
 	var_value = get_env_value(data->env, var_name);
@@ -71,7 +71,7 @@ void	handle_variable_expansion(t_data *data, char *str, char *result,
 	{
 		free(result);
 		free(var_name);
-		free_all_and_exit_perror(data,
+		free_all_and_exit(data,
 			"Error\n Exctract the variable value failed\n");
 	}
 	i = 0;
@@ -94,7 +94,7 @@ void	expand_ast_redirections(t_data *data, t_ast_node *node)
 		node->redir_file = expanded;
 	}
 	else
-		free_all_and_exit_perror(data,
+		free_all_and_exit(data,
 			"Error\n Variable expansion failed\n");
 }
 
@@ -117,7 +117,7 @@ void	expand_ast(t_data *data, t_ast_node *node)
 				node->args[arg_idx] = expanded;
 			}
 			else
-				free_all_and_exit_perror(data,
+				free_all_and_exit(data,
 					"Error\n Variable expansion failed\n");
 			arg_idx++;
 		}

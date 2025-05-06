@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 18:06:12 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 14:16:33 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:05:14 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*strip_quotes(t_data *data, char *str)
 		return (NULL);
 	result = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!result)
-		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
+		free_all_and_exit(data, "Error\n Malloc allocation failed\n");
 	fill_stripped_result(str, result);
 	return (result);
 }

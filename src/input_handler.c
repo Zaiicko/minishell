@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 02:16:12 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:10:33 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	process_user_input(t_data *data)
 
 void	readline_loop(t_data *data)
 {
-	load_history();
+	load_history(data);
 	start_signals();
 	while (1)
 	{

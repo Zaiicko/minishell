@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:57:51 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 15:43:49 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:05:55 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	handle_word(t_data *data, int i, t_token **head)
 	}
 	word = ft_substr(data->input, start, i - start);
 	if (!word)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		free_all_and_exit(data, "Error\n Malloc failed\n");
 	safe_add_token_to_list(data, head, TOKEN_WORD, word);
 	free(word);
 	return (i);

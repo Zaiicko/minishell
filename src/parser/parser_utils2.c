@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:42:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 16:21:38 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:06:29 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ static t_token	*create_redirection_token(t_data *data, t_token **current)
 
 	temp = malloc(sizeof(t_token));
 	if (!temp)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		free_all_and_exit(data, "Error\n Malloc failed\n");
 	temp->type = (*current)->type;
 	*current = (*current)->next;
 	if (!*current || (*current)->type != TOKEN_WORD)
-		free_all_and_exit_perror(data, "Error\n Missing filename\n");
+		free_all_and_exit(data, "Error\n Missing filename\n");
 	temp->value = ft_strdup((*current)->value);
 	if (!temp->value)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		free_all_and_exit(data, "Error\n Malloc failed\n");
 	*current = (*current)->next;
 	return (temp);
 }
@@ -67,7 +67,7 @@ t_token	*process_token(t_data *data, t_token *current, char **args, int *i)
 	{
 		args[*i] = ft_strdup(current->value);
 		if (!args[*i])
-			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+			free_all_and_exit(data, "Error\n Malloc failed\n");
 		(*i)++;
 		return (current->next);
 	}

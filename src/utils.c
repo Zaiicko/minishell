@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 22:37:38 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 19:16:59 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:07:37 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	exit_perror(char *msg)
-{
-	perror(msg);
-	exit(1);
-}
 
 void	free_all(t_data *data)
 {
@@ -30,10 +24,11 @@ void	free_all(t_data *data)
 		free_env(data->env);
 }
 
-void	free_all_and_exit_perror(t_data *data, char *msg)
+void	free_all_and_exit(t_data *data, char *msg)
 {
 	free_all(data);
-	exit_perror(msg);
+	printf("%s", msg);
+	exit(1);
 }
 
 void	ft_putstr_error(char *s1, char *s2, char *s3)

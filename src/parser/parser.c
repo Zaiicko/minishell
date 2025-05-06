@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 17:57:04 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:08:08 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ t_ast_node	*parse_command(t_data *data, t_token **tokens)
 	count = count_command_args(*tokens);
 	args = (char **)malloc((count + 1) * sizeof(char *));
 	if (!args)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		free_all_and_exit(data, "Error\n Malloc failed\n");
 	fill_command_args(data, tokens, args, count);
 	cmd_node = new_command_node(args);
 	if (!cmd_node)
 	{
 		ft_free_tab(args);
-		free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+		free_all_and_exit(data, "Error\n Node creation failed\n");
 	}
 	return (handle_redirections(data, tokens, cmd_node));
 }
@@ -71,7 +71,7 @@ t_ast_node	*parse_pipe(t_data *data, t_token **tokens)
 		if (!node)
 		{
 			free_ast(left);
-			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+			free_all_and_exit(data, "Error\n Node creation failed\n");
 		}
 		return (node);
 	}
@@ -99,7 +99,7 @@ t_ast_node	*parse_logical(t_data *data, t_token **tokens)
 		if (!node)
 		{
 			free_ast(left);
-			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+			free_all_and_exit(data, "Error\n Node creation failed\n");
 		}
 		return (node);
 	}

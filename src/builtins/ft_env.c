@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:31:30 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/05 01:22:01 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:04:36 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ static t_env_var	*create_env_var(char *key, char *value, t_data *data)
 
 	new_var = malloc(sizeof(t_env_var));
 	if (!new_var)
-		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
+		free_all_and_exit(data, "Error\n Malloc allocation failed\n");
 	new_var->key = strdup(key);
 	if (!new_var->key)
 	{
 		free(new_var);
-		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
+		free_all_and_exit(data, "Error\n Malloc allocation failed\n");
 	}
 	new_var->value = strdup(value);
 	if (!new_var->value)
 	{
 		free(new_var->key);
 		free(new_var);
-		free_all_and_exit_perror(data, "Error\n Malloc allocation failed\n");
+		free_all_and_exit(data, "Error\n Malloc allocation failed\n");
 	}
 	return (new_var);
 }
@@ -42,7 +42,7 @@ static void	update_existing_env(t_env_var *current, char *value, t_data *data)
 	free(current->value);
 	current->value = ft_strdup(value);
 	if (!current->value)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		free_all_and_exit(data, "Error\n Malloc failed\n");
 }
 
 void	ft_setenv(t_env *env, char *key, char *value, t_data *data)
@@ -81,12 +81,12 @@ static void	process_env_entry(t_env *env, char *entry, t_data *data)
 		return ;
 	key = ft_substr(entry, 0, equal_sign - entry);
 	if (!key)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		free_all_and_exit(data, "Error\n Malloc failed\n");
 	value = ft_strdup(equal_sign + 1);
 	if (!value)
 	{
 		free(key);
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		free_all_and_exit(data, "Error\n Malloc failed\n");
 	}
 	ft_setenv(env, key, value, data);
 	free(key);
@@ -100,7 +100,7 @@ t_env	*init_env(char **envp, t_data *data)
 
 	env = malloc(sizeof(t_env));
 	if (!env)
-		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		free_all_and_exit(data, "Error\n Malloc failed\n");
 	env->head = NULL;
 	env->next = NULL;
 	i = 0;

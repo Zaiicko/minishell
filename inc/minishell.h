@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 17:50:45 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:11:11 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,11 @@ void					init_data(t_data *data, char **env);
 void					start_signals(void);
 void					handle_sigint(int sig);
 
-void					load_history(void);
+void					load_history(t_data *data);
 void					save_history(t_data *data);
 
-void					exit_perror(char *msg);
 void					free_all(t_data *data);
-void					free_all_and_exit_perror(t_data *data, char *msg);
+void					free_all_and_exit(t_data *data, char *msg);
 
 t_ast_node				*new_node(t_node_type type);
 t_ast_node				*new_command_node(char **args);
