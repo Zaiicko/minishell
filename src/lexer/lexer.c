@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 01:57:51 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 18:05:55 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:35:16 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,12 @@ int	handle_operator(t_data *data, int i, t_token **head)
 {
 	if (data->input[i] == '|')
 	{
-		if (data->input[i + 1] == '|')
-		{
-			safe_add_token_to_list(data, head, TOKEN_OR, "||");
-			return (i + 2);
-		}
 		safe_add_token_to_list(data, head, TOKEN_PIPE, "|");
 		return (i + 1);
 	}
 	else if (data->input[i] == '<' || data->input[i] == '>')
 	{
 		return (handle_redirection(data, i, head));
-	}
-	if (data->input[i] == '&' && data->input[i + 1] == '&')
-	{
-		safe_add_token_to_list(data, head, TOKEN_AND, "&&");
-		return (i + 2);
 	}
 	return (i);
 }

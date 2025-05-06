@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 18:08:08 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 22:39:03 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,13 @@ t_ast_node	*parse_pipe(t_data *data, t_token **tokens)
 	if (*tokens && (*tokens)->type == TOKEN_PIPE)
 	{
 		*tokens = (*tokens)->next;
-		node = new_pipe_node(left, parse_pipe(data, tokens));
-		if (!node)
+		if (!*tokens || (*tokens)->type == TOKEN_PIPE)
 		{
 			free_ast(left);
-			free_all_and_exit(data, "Error\n Node creation failed\n");
+			free_all_and_exit(data,
+				"Error\n Syntax error near unexpected token `|`\n");
 		}
-		return (node);
-	}
-	return (left);
-}
-
-t_ast_node	*parse_logical(t_data *data, t_token **tokens)
-{
-	t_ast_node	*left;
-	t_node_type	type;
-	t_ast_node	*node;
-
-	left = parse_pipe(data, tokens);
-	if (!left)
-		return (NULL);
-	if (*tokens && ((*tokens)->type == TOKEN_AND
-			|| (*tokens)->type == TOKEN_OR))
-	{
-		if ((*tokens)->type == TOKEN_AND)
-			type = NODE_AND;
-		else
-			type = NODE_OR;
-		*tokens = (*tokens)->next;
-		node = new_operator_node(type, left, parse_logical(data, tokens));
+		node = new_pipe_node(left, parse_pipe(data, tokens));
 		if (!node)
 		{
 			free_ast(left);
@@ -114,7 +92,10 @@ t_ast_node	*parse(t_data *data)
 	if (!data->tokens)
 		return (NULL);
 	current = data->tokens;
-	root = parse_logical(data, &current);
+	if ((*current).type == TOKEN_PIPE)
+		free_all_and_exit(data,
+			"Error\n Syntax error near unexpected token `|`\n");
+	root = parse_pipe(data, &current);
 	if (!root)
 		return (NULL);
 	return (root);

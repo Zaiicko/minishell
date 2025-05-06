@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 18:11:11 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:37:32 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ typedef enum s_node_type
 	NODE_COMMAND,
 	NODE_REDIR_IN,
 	NODE_REDIR_OUT,
-	NODE_AND,
-	NODE_OR,
 	NODE_APPEND,
 	NODE_HEREDOC,
 }						t_node_type;
@@ -78,8 +76,6 @@ typedef enum s_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
-	TOKEN_AND,
-	TOKEN_OR,
 }						t_token_type;
 
 typedef struct s_token
@@ -116,8 +112,6 @@ t_ast_node				*new_command_node(char **args);
 t_ast_node				*new_pipe_node(t_ast_node *l_cmd, t_ast_node *r_cmd);
 t_ast_node				*new_redir_node(t_node_type type, t_ast_node *cmd,
 							char *target);
-t_ast_node				*new_operator_node(t_node_type type, t_ast_node *l,
-							t_ast_node *r);
 void					free_ast(t_ast_node *root);
 
 t_token					*new_token(t_token_type type, char *value);
@@ -134,7 +128,6 @@ int						handle_operator(t_data *data, int i, t_token **head);
 int						handle_redirection(t_data *data, int i, t_token **head);
 
 t_ast_node				*parse(t_data *data);
-t_ast_node				*parse_logical(t_data *data, t_token **tokens);
 t_ast_node				*parse_pipe(t_data *data, t_token **tokens);
 t_ast_node				*parse_command(t_data *data, t_token **tokens);
 int						count_command_args(t_token *tokens);

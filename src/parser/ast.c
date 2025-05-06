@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:09:03 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/04/20 03:36:08 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:37:08 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,5 @@ t_ast_node	*new_redir_node(t_node_type type, t_ast_node *cmd, char *target)
 		free(node);
 		return (NULL);
 	}
-	return (node);
-}
-
-t_ast_node	*new_operator_node(t_node_type type, t_ast_node *l, t_ast_node *r)
-{
-	t_ast_node	*node;
-
-	if (type != NODE_AND && type != NODE_OR)
-		return (NULL);
-	node = new_node(type);
-	if (!node)
-		return (NULL);
-	node->l = l;
-	node->r = r;
 	return (node);
 }
