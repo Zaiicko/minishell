@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 18:36:45 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 03:07:46 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,14 @@ void	ft_cd_oldpwd(t_env *env, t_data *data)
 		ft_putstr_error(strerror(errno), NULL, NULL);
 		g_exit_status = 1;
 		free(current);
+		free(oldpwd);
 	}
 	else
 	{
 		update_pwd_vars(current, env, data);
 		free(current);
 		printf("%s\n", oldpwd);
+		free(oldpwd);
 	}
 }
 
