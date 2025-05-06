@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 20:53:58 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 15:48:02 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 01:57:02 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,7 @@ static void	process_ast(t_data *data)
 		data->ast = NULL;
 	}
 	else
-	{
-		printf("Parsing error\n");
-		g_exit_status = 2;
-	}
-	if (data->ast)
-	{
-		free_ast(data->ast);
-		data->ast = NULL;
-	}
+		free_all_and_exit_perror(data, "Error\n parsing failed\n");
 	free_token_list(&data->tokens);
 }
 
@@ -47,6 +39,8 @@ void	process_user_input(t_data *data)
 			data->ast = parse(data);
 			process_ast(data);
 		}
+		else
+			free_all_and_exit_perror(data, "Error\n tokenize failed\n");
 	}
 }
 
