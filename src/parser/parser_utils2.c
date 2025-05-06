@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:42:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 18:06:29 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 00:11:05 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_token	*create_redirection_token(t_data *data, t_token **current)
 	temp->type = (*current)->type;
 	*current = (*current)->next;
 	if (!*current || (*current)->type != TOKEN_WORD)
-		free_all_and_exit(data, "Error\n Missing filename\n");
+		return (NULL);
 	temp->value = ft_strdup((*current)->value);
 	if (!temp->value)
 		free_all_and_exit(data, "Error\n Malloc failed\n");
@@ -47,6 +47,13 @@ t_token	*collect_redirections(t_data *data, t_token **tokens)
 	while (current && is_redirection_token(current->type))
 	{
 		temp = create_redirection_token(data, &current);
+		if (!temp)
+		{
+			ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
+			ft_putstr_fd("near unexpected token `newline'\n", STDERR_FILENO);
+			g_exit_status = 258;
+			return (NULL);
+		}
 		temp->next = redirs;
 		redirs = temp;
 	}

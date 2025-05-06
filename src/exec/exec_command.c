@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:26:07 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 17:22:18 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 00:14:16 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	exec_command(t_ast_node *node, t_data *data)
 	int		status;
 
 	if (!node->args || !node->args[0] || node->args[0][0] == '\0')
-		return (g_exit_status = 0);
+		return (g_exit_status);
 	if (is_builtin(node->args[0]))
 		return (exec_builtin(node->args, data->env, data));
 	pid = fork();

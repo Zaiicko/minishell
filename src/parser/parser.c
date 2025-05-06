@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 22:39:03 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 00:06:24 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ t_ast_node	*parse_pipe(t_data *data, t_token **tokens)
 		*tokens = (*tokens)->next;
 		if (!*tokens || (*tokens)->type == TOKEN_PIPE)
 		{
-			free_ast(left);
-			free_all_and_exit(data,
-				"Error\n Syntax error near unexpected token `|`\n");
+			ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
+			ft_putstr_fd("near unexpected token `|'\n", STDERR_FILENO);
+			g_exit_status = 258;
+			return (free_ast(left), NULL);
 		}
 		node = new_pipe_node(left, parse_pipe(data, tokens));
 		if (!node)
@@ -93,8 +94,12 @@ t_ast_node	*parse(t_data *data)
 		return (NULL);
 	current = data->tokens;
 	if ((*current).type == TOKEN_PIPE)
-		free_all_and_exit(data,
-			"Error\n Syntax error near unexpected token `|`\n");
+	{
+		ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
+		ft_putstr_fd("near unexpected token `|'\n", STDERR_FILENO);
+		g_exit_status = 258;
+		return (NULL);
+	}
 	root = parse_pipe(data, &current);
 	if (!root)
 		return (NULL);
