@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:48:47 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 18:46:15 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:36:25 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ t_ast_node	*parse_command(t_data *data, t_token **tokens)
 	char		**args;
 	int			count;
 
+	if (is_redirection_token((*tokens)->type))
+	{
+		args = (char **)malloc(1 * sizeof(char *));
+		if (!args)
+			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+		args[0] = NULL;
+		cmd_node = new_command_node(args);
+		if (!cmd_node)
+		{
+			free(args);
+			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+		}
+		return (handle_redirections(data, tokens, cmd_node));
+	}
 	if (!*tokens || (*tokens)->type != TOKEN_WORD)
 		return (NULL);
 	count = count_command_args(*tokens);
@@ -114,6 +128,6 @@ t_ast_node	*parse(t_data *data)
 	current = data->tokens;
 	root = parse_logical(data, &current);
 	if (!root)
-		free_all_and_exit_perror(data, "Error\n Parsing failed\n");
+		return (NULL);
 	return (root);
 }

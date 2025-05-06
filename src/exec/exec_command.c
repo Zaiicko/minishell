@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:26:07 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 00:00:01 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 17:22:18 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	handle_command_error(char *cmd, int error_code, t_data *data)
 	}
 	else
 	{
-		ft_putstr_error("minishell: ", cmd, ": ");
-		ft_putstr_error(strerror(error_code), NULL, NULL);
+		write(STDERR_FILENO, "minishell: ", 11);
+		ft_putstr_error(cmd, ": ", strerror(error_code));
 		free(cmd);
 		free_all(data);
 		exit(1);

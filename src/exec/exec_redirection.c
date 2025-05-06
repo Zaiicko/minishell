@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:27:52 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 16:30:55 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:27:18 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int	open_redir_file(t_ast_node *node)
 
 static int	handle_redir_error(t_ast_node *node, int saved_fd)
 {
-	ft_putstr_error("minishell: ", node->redir_file, ": ");
-	ft_putstr_error(strerror(errno), NULL, NULL);
+	write(STDERR_FILENO, "minishell: ", 11);
+	ft_putstr_error(node->redir_file, ": ", strerror(errno));
 	close(saved_fd);
 	g_exit_status = 1;
 	return (g_exit_status);

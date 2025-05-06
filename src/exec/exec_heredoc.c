@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:43:10 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 14:00:50 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:26:56 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ static char	*create_temp_file(void)
 	return (temp_name);
 }
 
-static void	prompt_heredoc_line(void)
-{
-	write(STDERR_FILENO, "> ", 2);
-}
-
 static int	write_heredoc_content(int fd, char *delimiter)
 {
 	char	*line;
@@ -44,21 +39,21 @@ static int	write_heredoc_content(int fd, char *delimiter)
 	result = 0;
 	while (1)
 	{
-		prompt_heredoc_line();
-		line = readline("");
+		line = readline("> ");
 		if (!line)
 		{
 			ft_putstr_error("minishell: warning: ",
 				"here-document delimited by end-of-file\n", NULL);
 			break ;
 		}
+		if (g_exit_status == 130)
+			return (free(line), 0);
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;
 		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		ft_putendl_fd(line, fd);
 		free(line);
 		result = 1;
 	}
@@ -76,10 +71,7 @@ char	*handle_heredoc(char *delimiter, t_data *data)
 		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
 	fd = open(temp_file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
-	{
-		free(temp_file);
-		free_all_and_exit_perror(data, "Error\n Cannot create heredoc file\n");
-	}
+		return (free(temp_file), NULL);
 	result = write_heredoc_content(fd, delimiter);
 	close(fd);
 	if (!result)

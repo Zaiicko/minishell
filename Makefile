@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+         #
+#    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/05/06 16:55:26 by nicleena         ###   ########.fr        #
+#    Updated: 2025/05/06 17:39:32 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ $(NAME):	$(OBJ) $(LIBFT)
 		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LDFLAGS) -o $(NAME)
 
 $(LIBFT):
-		@make -C $(LIBFT_DIR)
+		@make -C $(LIBFT_DIR) --no-print-directory
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 		@mkdir -p $(dir $@)
@@ -83,11 +83,11 @@ $(OBJ_DIR):
 
 clean:
 			@$(RM) $(OBJ_DIR)
-			@make clean -C $(LIBFT_DIR)
+			@make clean -C $(LIBFT_DIR) --no-print-directory
 
 fclean: clean
 		@$(RM) $(NAME)
-		@make fclean -C $(LIBFT_DIR)
+		@make fclean -C $(LIBFT_DIR) --no-print-directory
 
 re:		fclean all
 

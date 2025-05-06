@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 14:39:31 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:35:44 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static t_ast_node	*apply_single_redirection(t_data *data, t_token *temp,
 	{
 		heredoc_file = handle_heredoc(temp->value, data);
 		if (!heredoc_file)
-			free_all_and_exit_perror(data, "Error\n Heredoc failed\n");
+			return (free_ast(result), free_token_list(&temp), NULL);
 		result = new_redir_node(NODE_HEREDOC, result, heredoc_file);
 		free(heredoc_file);
 	}
