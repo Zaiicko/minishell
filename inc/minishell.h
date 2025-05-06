@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 16:54:26 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:50:45 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,5 +215,7 @@ void					exec_pipe_child_left(int pipefd[2],
 void					exec_pipe_child_right(int pipefd[2],
 							t_ast_node *node_side, t_data *data);
 int						handle_pipe_signal(int status2);
+t_ast_node				*parse_firstredirect_command(t_data *data,
+							t_token **tokens);
 
 #endif

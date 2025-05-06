@@ -6,7 +6,7 @@
 #    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/05/06 17:39:32 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/05/06 17:52:32 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRCS =	main.c\
 	exec/exec_command_child_utils.c\
 	exec/exec_pipe_utils.c\
 	utils2.c\
+	parser/parser_utils3.c\
 
 SRC = $(addprefix $(SRC_DIR)/, $(SRCS))
 
