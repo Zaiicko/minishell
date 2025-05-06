@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 03:07:46 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:46:34 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,14 @@ void	ft_cd_oldpwd(t_env *env, t_data *data)
 		return ;
 	}
 	current = getcwd(NULL, 0);
-	if (chdir(oldpwd) == -1)
+	if (!current)
 	{
-		ft_putstr_error("minishell: cd: ", oldpwd, ": ");
-		ft_putstr_error(strerror(errno), NULL, NULL);
+		free(oldpwd);
+		perror("getcwd");
 		g_exit_status = 1;
-		free(current);
-		free(oldpwd);
+		return ;
 	}
-	else
-	{
-		update_pwd_vars(current, env, data);
-		free(current);
-		printf("%s\n", oldpwd);
-		free(oldpwd);
-	}
+	change_to_oldpwd(oldpwd, current, env, data);
 }
 
 int	ft_cd(char **args, t_env *env, t_data *data)

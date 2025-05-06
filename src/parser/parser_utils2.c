@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:42:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/05 14:51:15 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:21:38 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,24 @@ int	is_redirection_token(t_token_type type)
 		|| type == TOKEN_APPEND || type == TOKEN_HEREDOC);
 }
 
+static t_token	*create_redirection_token(t_data *data, t_token **current)
+{
+	t_token	*temp;
+
+	temp = malloc(sizeof(t_token));
+	if (!temp)
+		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+	temp->type = (*current)->type;
+	*current = (*current)->next;
+	if (!*current || (*current)->type != TOKEN_WORD)
+		free_all_and_exit_perror(data, "Error\n Missing filename\n");
+	temp->value = ft_strdup((*current)->value);
+	if (!temp->value)
+		free_all_and_exit_perror(data, "Error\n Malloc failed\n");
+	*current = (*current)->next;
+	return (temp);
+}
+
 t_token	*collect_redirections(t_data *data, t_token **tokens)
 {
 	t_token	*redirs;
@@ -26,23 +44,11 @@ t_token	*collect_redirections(t_data *data, t_token **tokens)
 
 	redirs = NULL;
 	current = *tokens;
-	while (current && (current->type == TOKEN_REDIR_IN
-			|| current->type == TOKEN_REDIR_OUT || current->type == TOKEN_APPEND
-			|| current->type == TOKEN_HEREDOC))
+	while (current && is_redirection_token(current->type))
 	{
-		temp = malloc(sizeof(t_token));
-		if (!temp)
-			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
-		temp->type = current->type;
+		temp = create_redirection_token(data, &current);
 		temp->next = redirs;
 		redirs = temp;
-		current = current->next;
-		if (!current || current->type != TOKEN_WORD)
-			free_all_and_exit_perror(data, "Error\n Missing filename\n");
-		temp->value = ft_strdup(current->value);
-		if (!temp->value)
-			free_all_and_exit_perror(data, "Error\n Malloc failed\n");
-		current = current->next;
 	}
 	*tokens = current;
 	return (redirs);

@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/05 14:50:00 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:39:31 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,44 +75,53 @@ void	free_ast(t_ast_node *root)
 	free(root);
 }
 
+static t_ast_node	*apply_single_redirection(t_data *data, t_token *temp,
+		t_ast_node *result)
+{
+	t_node_type	type;
+	char		*heredoc_file;
+
+	if (temp->type == TOKEN_HEREDOC)
+	{
+		heredoc_file = handle_heredoc(temp->value, data);
+		if (!heredoc_file)
+			free_all_and_exit_perror(data, "Error\n Heredoc failed\n");
+		result = new_redir_node(NODE_HEREDOC, result, heredoc_file);
+		free(heredoc_file);
+	}
+	else
+	{
+		type = convert_type(temp->type);
+		result = new_redir_node(type, result, temp->value);
+	}
+	if (!result)
+		free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+	return (result);
+}
+
 t_ast_node	*handle_redirections(t_data *data, t_token **tokens,
 		t_ast_node *cmd)
 {
 	t_ast_node	*result;
 	t_token		*redirs;
 	t_token		*temp;
-	t_node_type	type;
-	char		*heredoc_file;
+	t_token		*next_token;
 
 	result = cmd;
 	redirs = collect_redirections(data, tokens);
 	temp = redirs;
 	while (temp)
 	{
-		if (temp->type == TOKEN_HEREDOC)
-		{
-			heredoc_file = handle_heredoc(temp->value, data);
-			if (!heredoc_file)
-				free_all_and_exit_perror(data, "Error\n Heredoc failed\n");
-			result = new_redir_node(NODE_HEREDOC, result, heredoc_file);
-			free(heredoc_file);
-		}
-		else
-		{
-			type = convert_type(temp->type);
-			result = new_redir_node(type, result, temp->value);
-		}
-		if (!result)
-			free_all_and_exit_perror(data, "Error\n Node creation failed\n");
+		result = apply_single_redirection(data, temp, result);
 		temp = temp->next;
 	}
 	temp = redirs;
 	while (temp)
 	{
-		redirs = temp->next;
+		next_token = temp->next;
 		free(temp->value);
 		free(temp);
-		temp = redirs;
+		temp = next_token;
 	}
 	return (result);
 }

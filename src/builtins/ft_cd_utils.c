@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:25:43 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 18:34:56 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:46:49 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,26 @@ int	handle_relative_path(char *path, t_env *env, t_data *data)
 		free(oldpwd);
 	}
 	return (g_exit_status);
+}
+
+void	handle_cd_oldpwd_error(char *oldpwd, char *current)
+{
+	ft_putstr_error("minishell: cd: ", oldpwd, ": ");
+	ft_putstr_error(strerror(errno), NULL, NULL);
+	g_exit_status = 1;
+	free(current);
+	free(oldpwd);
+}
+
+void	change_to_oldpwd(char *oldpwd, char *current, t_env *env, t_data *data)
+{
+	if (chdir(oldpwd) == -1)
+		handle_cd_oldpwd_error(oldpwd, current);
+	else
+	{
+		update_pwd_vars(current, env, data);
+		free(current);
+		printf("%s\n", oldpwd);
+		free(oldpwd);
+	}
 }

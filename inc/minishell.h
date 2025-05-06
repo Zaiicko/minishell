@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/05 21:04:57 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:54:26 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,5 +200,20 @@ void					handle_command_error(char *cmd, int error_code,
 							t_data *data);
 char					*handle_heredoc(char *delimiter, t_data *data);
 char					**ft_tabdup(char **tab);
+void					setup_execute(t_ast_node *node, t_data *data,
+							char **cmd_path, char **cmd_dup);
+void					handle_exec_error(char *cmd_path, char *cmd_dup,
+							t_data *data);
+char					*handle_path_not_found(char *cmd);
+char					*handle_direct_path(char *cmd);
+void					handle_cd_oldpwd_error(char *oldpwd, char *current);
+void					change_to_oldpwd(char *oldpwd, char *current,
+							t_env *env, t_data *data);
+char					*find_command_path(char *cmd, t_env *env);
+void					exec_pipe_child_left(int pipefd[2],
+							t_ast_node *node_side, t_data *data);
+void					exec_pipe_child_right(int pipefd[2],
+							t_ast_node *node_side, t_data *data);
+int						handle_pipe_signal(int status2);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:27:23 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/05 20:12:55 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:58:01 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,52 +15,11 @@
 static void	exec_pipe_child(int pipefd[2], t_ast_node *node_side, t_data *data,
 		int is_left_side)
 {
-	int exit_code;
-
 	start_exec_signals();
 	if (is_left_side)
-	{
-		close(pipefd[0]);
-		if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			free_all(data);
-			exit(1);
-		}
-		close(pipefd[1]);
-		exit_code = execute_ast(node_side, data);
-		free_all(data);
-		exit(exit_code);
-	}
+		exec_pipe_child_left(pipefd, node_side, data);
 	else
-	{
-		close(pipefd[1]);
-		if (dup2(pipefd[0], STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			free_all(data);
-			exit(1);
-		}
-		close(pipefd[0]);
-		exit_code = execute_ast(node_side, data);
-		free_all(data);
-		exit(exit_code);
-	}
-}
-
-static int	handle_pipe_signal(int status2)
-{
-	if (WIFSIGNALED(status2))
-	{
-		if (WTERMSIG(status2) == SIGINT)
-			write(1, "\n", 1);
-		else if (WTERMSIG(status2) == SIGQUIT)
-			write(1, "Quit: 3\n", 8);
-		g_exit_status = 128 + WTERMSIG(status2);
-	}
-	else
-		g_exit_status = WEXITSTATUS(status2);
-	return (g_exit_status);
+		exec_pipe_child_right(pipefd, node_side, data);
 }
 
 static pid_t	create_child(int pipefd[2], t_ast_node *node, t_data *data,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_child.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 00:04:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 00:43:41 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:39:03 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,46 +83,27 @@ static char	*search_in_paths(char **paths, char *cmd)
 	return (NULL);
 }
 
-static char	*find_command_path(char *cmd, t_env *env)
+char	*find_command_path(char *cmd, t_env *env)
 {
 	char	*path;
 	char	**paths;
 	char	*cmd_path;
-	char	*result;
+	char	*direct_result;
 
-	if (ft_strchr(cmd, '/'))
-	{
-		result = ft_strdup(cmd);
-		if (!result)
-			return (NULL);
-		return (result);
-	}
+	direct_result = handle_direct_path(cmd);
+	if (direct_result)
+		return (direct_result);
 	path = get_env_value(env, "PATH");
 	if (!path)
-	{
-		result = ft_strdup(cmd);
-		if (!result)
-			return (NULL);
-		return (result);
-	}
+		return (handle_path_not_found(cmd));
 	paths = ft_split(path, ':');
 	free(path);
 	if (!paths)
-	{
-		result = ft_strdup(cmd);
-		if (!result)
-			return (NULL);
-		return (result);
-	}
+		return (handle_path_not_found(cmd));
 	cmd_path = search_in_paths(paths, cmd);
 	ft_free_tab(paths);
 	if (!cmd_path)
-	{
-		result = ft_strdup(cmd);
-		if (!result)
-			return (NULL);
-		return (result);
-	}
+		return (handle_path_not_found(cmd));
 	return (cmd_path);
 }
 
@@ -134,22 +115,13 @@ void	exec_command_child(t_ast_node *node, t_data *data)
 	char	*cmd_dup;
 
 	start_exec_signals();
-	cmd_dup = ft_strdup(node->args[0]);
-	if (!cmd_dup)
-	{
-		free_all(data);
-		exit(1);
-	}
-	cmd_path = find_command_path(node->args[0], data->env);
-	if (!cmd_path)
-		handle_command_error(cmd_dup, ENOMEM, data);
+	setup_execute(node, data, &cmd_path, &cmd_dup);
 	env_array = env_to_array(data->env);
 	if (!env_array)
 	{
 		free(cmd_path);
 		handle_command_error(cmd_dup, ENOMEM, data);
 	}
-
 	args_copy = ft_tabdup(node->args);
 	if (!args_copy)
 	{
