@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:42:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/07 00:11:05 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 02:24:14 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_token	*create_redirection_token(t_data *data, t_token **current)
 	temp->type = (*current)->type;
 	*current = (*current)->next;
 	if (!*current || (*current)->type != TOKEN_WORD)
-		return (NULL);
+		return (free(temp), NULL);
 	temp->value = ft_strdup((*current)->value);
 	if (!temp->value)
 		free_all_and_exit(data, "Error\n Malloc failed\n");
