@@ -6,7 +6,7 @@
 #    By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/29 23:59:36 by zaiicko           #+#    #+#              #
-#    Updated: 2025/05/06 17:52:32 by zaiicko          ###   ########.fr        #
+#    Updated: 2025/05/07 19:04:51 by zaiicko          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ RM = rm -rf
 SRCS =	main.c\
     input_handler.c\
     signals/signal_handler.c\
-    signals/signal_handler2.c\
     utils.c\
     parser/ast.c\
     lexer/lexer.c\
