@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:20 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/07 17:05:06 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:52:42 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	is_valid_identifier(char *key)
 
 	if (!key || !*key)
 		return (0);
-	if (!isalpha(key[0]) && key[0] != '_')
+	if (!ft_isalpha(key[0]) && key[0] != '_')
 		return (0);
 	i = 1;
 	while (key[i])

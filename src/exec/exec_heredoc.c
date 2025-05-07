@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:43:10 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 18:05:09 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 17:56:37 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static int	write_heredoc_content(int fd, char *delimiter)
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
+			result = 1;
 			break ;
 		}
-		ft_putendl_fd(line, fd);
-		free(line);
 		result = 1;
+		return (ft_putendl_fd(line, fd), free(line), result);
 	}
 	return (result);
 }
