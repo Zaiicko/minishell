@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 21:21:12 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/03 04:06:26 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 19:02:05 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	start_parent_exec_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	handle_sigint_exec(int sig)
+void	start_exec_signals(void)
 {
-	(void)sig;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
