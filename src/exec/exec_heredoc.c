@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:43:10 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/07 17:56:37 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:47:15 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,18 @@ static int	write_heredoc_content(int fd, char *delimiter)
 		{
 			ft_putstr_error("minishell: warning: ",
 				"here-document delimited by end-of-file\n", NULL);
+			result = 1;
 			break ;
 		}
-		if (g_exit_status == 130)
-			return (free(line), 0);
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			result = 1;
 			break ;
 		}
+		ft_putendl_fd(line, fd);
+		free(line);
 		result = 1;
-		return (ft_putendl_fd(line, fd), free(line), result);
 	}
 	return (result);
 }
