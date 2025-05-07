@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:26:07 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/07 00:14:16 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:37:40 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 void	handle_command_error(char *cmd, int error_code, t_data *data)
 {
-	if (error_code == ENOENT)
+	if ((ft_strncmp(cmd, "./", 2) && ft_strncmp(cmd, "/", 1))
+		&& (error_code == ENOENT || access(cmd, X_OK) == -1))
 	{
 		ft_putstr_error("minishell: ", cmd, ": command not found");
 		free(cmd);
 		free_all(data);
 		exit(127);
 	}
-	else if (error_code == EACCES)
+	else if (ft_strncmp(cmd, "/", 1)
+		&& (error_code == EACCES && access(cmd, F_OK) == -1))
 	{
 		ft_putstr_error("minishell: ", cmd, ": Permission denied");
 		free(cmd);
@@ -34,7 +36,7 @@ void	handle_command_error(char *cmd, int error_code, t_data *data)
 		ft_putstr_error(cmd, ": ", strerror(error_code));
 		free(cmd);
 		free_all(data);
-		exit(1);
+		exit(127);
 	}
 }
 

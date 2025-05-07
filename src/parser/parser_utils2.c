@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:42:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/07 02:24:14 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:39:58 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,25 @@ int	is_redirection_token(t_token_type type)
 		|| type == TOKEN_APPEND || type == TOKEN_HEREDOC);
 }
 
-static t_token	*create_redirection_token(t_data *data, t_token **current)
+static t_token	*create_redirection_token(t_token **current)
 {
 	t_token	*temp;
 
 	temp = malloc(sizeof(t_token));
 	if (!temp)
-		free_all_and_exit(data, "Error\n Malloc failed\n");
+		return (NULL);
 	temp->type = (*current)->type;
 	*current = (*current)->next;
 	if (!*current || (*current)->type != TOKEN_WORD)
 		return (free(temp), NULL);
 	temp->value = ft_strdup((*current)->value);
 	if (!temp->value)
-		free_all_and_exit(data, "Error\n Malloc failed\n");
+		return (free(temp), NULL);
 	*current = (*current)->next;
 	return (temp);
 }
 
-t_token	*collect_redirections(t_data *data, t_token **tokens)
+t_token	*collect_redirections(t_ast_node *result, t_token **tokens)
 {
 	t_token	*redirs;
 	t_token	*temp;
@@ -46,9 +46,10 @@ t_token	*collect_redirections(t_data *data, t_token **tokens)
 	current = *tokens;
 	while (current && is_redirection_token(current->type))
 	{
-		temp = create_redirection_token(data, &current);
+		temp = create_redirection_token(&current);
 		if (!temp)
 		{
+			free_ast(result);
 			ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
 			ft_putstr_fd("near unexpected token `newline'\n", STDERR_FILENO);
 			g_exit_status = 258;
@@ -70,11 +71,12 @@ t_token	*process_redirection_token(t_token *current)
 
 t_token	*process_token(t_data *data, t_token *current, char **args, int *i)
 {
+	(void)data;
 	if (current->type == TOKEN_WORD)
 	{
 		args[*i] = ft_strdup(current->value);
 		if (!args[*i])
-			free_all_and_exit(data, "Error\n Malloc failed\n");
+			return (NULL);
 		(*i)++;
 		return (current->next);
 	}

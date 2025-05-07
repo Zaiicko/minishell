@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:19:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/06 16:46:34 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:38:55 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,11 @@ int	ft_cd(char **args, t_env *env, t_data *data)
 
 	g_exit_status = 0;
 	if (!args[1])
+		return (ft_tilde(env, data), g_exit_status);
+	else if (args[2])
 	{
-		ft_tilde(env, data);
-		return (g_exit_status);
+		ft_putstr_error("minishell: cd: ", "too many arguments", NULL);
+		return (g_exit_status = 1, g_exit_status);
 	}
 	path = args[1];
 	if (ft_strncmp(path, "~", 1) == 0)

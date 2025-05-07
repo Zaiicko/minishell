@@ -6,7 +6,7 @@
 /*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 18:06:00 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:40:08 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_ast_node	*handle_redirections(t_data *data, t_token **tokens,
 	t_token		*next_token;
 
 	result = cmd;
-	redirs = collect_redirections(data, tokens);
+	redirs = collect_redirections(result, tokens);
 	temp = redirs;
 	while (temp)
 	{

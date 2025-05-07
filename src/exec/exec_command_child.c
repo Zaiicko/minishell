@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command_child.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 00:04:07 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/06 16:39:03 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:38:34 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,7 @@ void	exec_command_child(t_ast_node *node, t_data *data)
 		handle_command_error(cmd_dup, ENOMEM, data);
 	}
 	execve(cmd_path, args_copy, env_array);
-	free(cmd_path);
-	ft_free_tab(env_array);
-	ft_free_tab(args_copy);
-	handle_command_error(cmd_dup, errno, data);
+	is_directory(cmd_path, cmd_dup, data);
+	return (free(cmd_path), ft_free_tab(env_array),
+		ft_free_tab(args_copy), handle_command_error(cmd_dup, errno, data));
 }

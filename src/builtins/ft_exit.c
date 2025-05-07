@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:50:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 18:48:37 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:13:10 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	handle_exit(char **args, t_data *data)
 			ft_putstr_error("minishell: exit: ", args[1],
 				": numeric argument required");
 			free_all(data);
-			exit(255);
+			exit(2);
 		}
 		else if (args[2])
 		{
