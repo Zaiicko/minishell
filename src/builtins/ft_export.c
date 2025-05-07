@@ -6,7 +6,7 @@
 /*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:31:37 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/03 19:09:44 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:02:36 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	handle_export_arg(t_env *env, char *arg, t_data *data)
 	char	*name;
 	char	*value;
 
-	equal_sign = strchr(arg, '=');
+	equal_sign = ft_strchr(arg, '=');
 	if (equal_sign)
 	{
 		*equal_sign = '\0';
