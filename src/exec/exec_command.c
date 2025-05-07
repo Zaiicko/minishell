@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:26:07 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/07 14:37:40 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 19:22:01 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	handle_command_status(int status)
 		if (WTERMSIG(status) == SIGINT)
 			write(1, "\n", 1);
 		else if (WTERMSIG(status) == SIGQUIT)
-			write(1, "Quit: 3\n", 8);
+			write(1, "Quit (core dumped)\n", 20);
 		g_exit_status = 128 + WTERMSIG(status);
 	}
 	else
