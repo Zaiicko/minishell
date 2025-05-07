@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:16 by zaiicko           #+#    #+#             */
-/*   Updated: 2025/05/07 14:40:08 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 20:43:52 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,9 @@ t_ast_node	*handle_redirections(t_data *data, t_token **tokens,
 	t_token		*next_token;
 
 	result = cmd;
-	redirs = collect_redirections(result, tokens);
+	redirs = NULL;
+	if (collect_redirections(result, tokens, &redirs) == 2)
+		return (NULL);
 	temp = redirs;
 	while (temp)
 	{

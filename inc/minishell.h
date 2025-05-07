@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:14:40 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/07 14:40:44 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 20:44:42 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 # define MINISHELL_H
 
 # include "../libft/inc/libft.h"
+# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <dirent.h>
-# include <sys/stat.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
@@ -184,8 +184,8 @@ void					free_env(t_env *env);
 void					start_exec_signals(void);
 void					start_parent_exec_signals(void);
 int						is_redirection_token(t_token_type type);
-t_token					*collect_redirections(t_ast_node *node,
-							t_token **tokens);
+int						collect_redirections(t_ast_node *result,
+							t_token **tokens, t_token **redirs);
 t_token					*process_redirection_token(t_token *current);
 t_token					*process_token(t_data *data, t_token *current,
 							char **args, int *i);
@@ -210,7 +210,7 @@ void					exec_pipe_child_right(int pipefd[2],
 int						handle_pipe_signal(int status2);
 t_ast_node				*parse_firstredirect_command(t_data *data,
 							t_token **tokens);
-int						is_directory(char *cmd_path,
-							char *cmd_dup, t_data *data);
+int						is_directory(char *cmd_path, char *cmd_dup,
+							t_data *data);
 
 #endif

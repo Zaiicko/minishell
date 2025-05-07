@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
+/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:42:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/07 14:39:58 by zaiicko          ###   ########.fr       */
+/*   Updated: 2025/05/07 20:44:16 by nicleena         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,8 @@ static t_token	*create_redirection_token(t_token **current)
 	return (temp);
 }
 
-t_token	*collect_redirections(t_ast_node *result, t_token **tokens)
+int	collect_redirections(t_ast_node *result, t_token **tokens, t_token **redirs)
 {
-	t_token	*redirs;
 	t_token	*temp;
 	t_token	*current;
 
@@ -53,13 +52,13 @@ t_token	*collect_redirections(t_ast_node *result, t_token **tokens)
 			ft_putstr_fd("minishell: syntax error ", STDERR_FILENO);
 			ft_putstr_fd("near unexpected token `newline'\n", STDERR_FILENO);
 			g_exit_status = 258;
-			return (NULL);
+			return (2);
 		}
-		temp->next = redirs;
-		redirs = temp;
+		temp->next = *redirs;
+		*redirs = temp;
 	}
 	*tokens = current;
-	return (redirs);
+	return (0);
 }
 
 t_token	*process_redirection_token(t_token *current)
