@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nicleena <nicleena@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zaiicko <meskrabe@student.s19.be>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 18:42:44 by nicleena          #+#    #+#             */
-/*   Updated: 2025/05/07 20:44:16 by nicleena         ###   ########.fr       */
+/*   Updated: 2025/05/08 01:13:54 by zaiicko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	collect_redirections(t_ast_node *result, t_token **tokens, t_token **redirs)
 	t_token	*temp;
 	t_token	*current;
 
-	redirs = NULL;
+	*redirs = NULL;
 	current = *tokens;
 	while (current && is_redirection_token(current->type))
 	{
